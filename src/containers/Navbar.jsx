@@ -3,6 +3,7 @@ import MainSearchTextField from "../components/generic/MainSearchTextField";
 import ImageBox from "../components/generic/ImageBox";
 import { FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/images/boo_logo.png";
 
 const UrlLinks = [
   { name: "Estuche", path: "/products/:cases" },
@@ -22,7 +23,7 @@ export default function Navbar() {
         <div className="flex items-center gap-4 py-4 w-[90%]">
           <div className="text-white flex-[auto] gap-2 flex flex-row justify-self-start items-center">
             <ImageBox
-              src="/src/assets/images/boo_logo.png"
+              src={logo}
               alt="Logo de Boo Store"
               sx={{
                 width: 40,
