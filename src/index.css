@@ -1,0 +1,213 @@
+@import "tailwindcss";
+
+/* Importar fuentes de Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap");
+
+* {
+  font-family: "Switzer", sans-serif;
+}
+.font-title {
+  font-family: "khand", sans-serif;
+}
+@theme {
+  /* Primary - Púrpura */
+  --color-primary-50: #f3e8ff;
+  --color-primary-100: #e9d5ff;
+  --color-primary-200: #d8b4fe;
+  --color-primary-300: #c084fc;
+  --color-primary-400: #a855f7;
+  --color-primary-500: #9929ea;
+  --color-primary-600: #7e22ce;
+  --color-primary-700: #6b21a8;
+  --color-primary-800: #581c87;
+  --color-primary-900: #3b0764;
+  --color-primary: #9929ea;
+
+  /* Secondary - Rosa */
+  --color-secondary-50: #fff0fa;
+  --color-secondary-100: #ffe4f7;
+  --color-secondary-200: #ffc9ee;
+  --color-secondary-300: #ff9de0;
+  --color-secondary-400: #ff7ad6;
+  --color-secondary-500: #ff5fcf;
+  --color-secondary-600: #e13fb5;
+  --color-secondary-700: #b92d95;
+  --color-secondary-800: #8f2374;
+  --color-secondary-900: #651a52;
+  --color-secondary: #ff5fcf;
+
+  /* Tertiary - Azul */
+  --color-tertiary-50: #eff6ff;
+  --color-tertiary-100: #dbeafe;
+  --color-tertiary-200: #bfdbfe;
+  --color-tertiary-300: #93c5fd;
+  --color-tertiary-400: #60a5fa;
+  --color-tertiary-500: #3b82f6;
+  --color-tertiary-600: #2563eb;
+  --color-tertiary-700: #1d4ed8;
+  --color-tertiary-800: #1e40af;
+  --color-tertiary-900: #1e3a8a;
+  --color-tertiary: #2563eb;
+
+  /* Dark */
+  --color-dark: #0a0a0a;
+  --color-navbar: #160f1d;
+  --color-dark-surface: #1e293b;
+  --color-dark-muted: #334155;
+
+  /* Tipografías */
+  --font-heading: "Poppins", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-dark);
+}
+
+/* Animación de pulso LED para el botón */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(153, 41, 234, 0.5);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(153, 41, 234, 0.7),
+      0 0 60px rgba(153, 41, 234, 0.3);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Animaciones de flotación para los iconos en hover */
+@keyframes float-1 {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(20deg);
+  }
+}
+
+@keyframes float-2 {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-20deg);
+  }
+}
+
+@keyframes float-3 {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(-10deg);
+  }
+}
+
+@keyframes float-4 {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(12deg);
+  }
+}
+
+.animate-float-1 {
+  animation: float-1 1.5s ease-in-out infinite;
+}
+.animate-float-2 {
+  animation: float-2 1.8s ease-in-out infinite 0.2s;
+}
+.animate-float-3 {
+  animation: float-3 1.6s ease-in-out infinite 0.4s;
+}
+.animate-float-4 {
+  animation: float-4 1.7s ease-in-out infinite 0.3s;
+}
+
+/* Animaciones de bounce al hacer clic (suben y caen) */
+@keyframes icon-bounce-1 {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-40px) rotate(20deg);
+  }
+  100% {
+    transform: translateY(100px) rotate(-10deg);
+    opacity: 0;
+  }
+}
+
+@keyframes icon-bounce-2 {
+  0% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-50px) rotate(-25deg);
+  }
+  100% {
+    transform: translateY(120px) rotate(15deg);
+    opacity: 0;
+  }
+}
+
+@keyframes icon-bounce-3 {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-35px) rotate(-15deg);
+  }
+  100% {
+    transform: translateY(90px) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+@keyframes icon-bounce-4 {
+  0% {
+    transform: translateY(0);
+  }
+  32% {
+    transform: translateY(-45px) rotate(30deg);
+  }
+  100% {
+    transform: translateY(110px) rotate(-25deg);
+    opacity: 0;
+  }
+}
+
+.animate-icon-bounce-1 {
+  animation: icon-bounce-1 0.8s ease-out forwards;
+}
+.animate-icon-bounce-2 {
+  animation: icon-bounce-2 0.8s ease-out forwards 0.05s;
+}
+.animate-icon-bounce-3 {
+  animation: icon-bounce-3 0.8s ease-out forwards 0.1s;
+}
+.animate-icon-bounce-4 {
+  animation: icon-bounce-4 0.8s ease-out forwards 0.08s;
+}
+
+/* esconder scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
