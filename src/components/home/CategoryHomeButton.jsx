@@ -1,35 +1,80 @@
+import { alpha, Box, Typography, useTheme } from "@mui/material";
+
 export default function CategoryHomeButton({
   title = "example-icon",
   icon = "📦",
 }) {
+  const theme = useTheme();
   return (
-    <div
-      className="
-        group
-        flex flex-col items-center justify-center p-4
-        bg-primary/10 border border-secondary
-        rounded-lg cursor-pointer
-        transition-shadow duration-200
-        hover:shadow-[0_0_16px_rgba(255,95,207,0.6)]
-      "
-      style={styles.iconBox}
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+      }}
     >
-      <div className="text-secondary-600 group-hover:text-secondary-400 transition-colors duration-200 text-5xl">
-        {icon}
-      </div>
+      <Box
+        sx={{
+          display: "inline-flex",
+          flexDirection: "column",
+          alignItems: "center",
+          cursor: "pointer",
+          "&:hover .icon": {
+            color: "primary.light",
+          },
+          "&:hover .title": {
+            color: "primary.light",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            p: 2,
+            width: "100%",
+            height: "100px",
+            aspectRatio: "1 / 1",
+            borderRadius: "8px",
+            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+            border: "1px solid",
+            borderColor: "primary.main",
+            transition: "box-shadow 0.2s ease",
+            "&:hover": {
+              boxShadow: `0 0 16px ${alpha(theme.palette.primary.main, 0.7)}`,
+            },
+          }}
+        >
+          <Box
+            className="icon"
+            sx={{
+              color: "primary.main",
+              transition: "color 0.2s ease",
+            }}
+          >
+            {icon}
+          </Box>
+        </Box>
 
-      <p className="mt-2 text-lg font-semibold text-center text-secondary-600 group-hover:text-secondary-400">
-        {title}
-      </p>
-    </div>
+        <Typography
+          className="title"
+          sx={{
+            mt: 1,
+            fontSize: "1.125rem",
+            fontWeight: 600,
+            textAlign: "center",
+            color: "primary.main",
+            transition: "color 0.2s ease",
+          }}
+        >
+          {title}
+        </Typography>
+      </Box>
+    </Box>
   );
 }
-
-const styles = {
-  iconBox: {
-    width: "100%",
-    height: "200px",
-    aspectRatio: "1 / 1",
-    borderRadius: "8px",
-  },
-};

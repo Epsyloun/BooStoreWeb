@@ -1,20 +1,35 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Box } from "@mui/material";
+import { alpha } from "@mui/material/styles";
+
 import BannerHome from "../components/home/BannerHome";
 import HomeCategoryList from "../containers/home/HomeCategoryList";
 import HomeFeaturedProductList from "../containers/home/HomeFeaturedProductList";
 
 export default function Home() {
-  const navigate = useNavigate();
   return (
-    <div>
-      <main>
-        <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-primary/10 to-primary/40 gap-4">
+    <Box>
+      <Box component="main">
+        <Box
+          pb={8}
+          sx={(theme) => ({
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            minHeight: "100vh",
+            gap: 2,
+            background: `linear-gradient(
+      135deg,
+      ${alpha(theme.palette.secondary.main, 0.5)} 0%,
+      ${alpha(theme.palette.background.default, 0.1)} 30%,
+      ${alpha(theme.palette.primary.main, 0.5)} 100%
+    )`,
+          })}
+        >
           <BannerHome />
           <HomeCategoryList />
           <HomeFeaturedProductList />
-        </div>
-      </main>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 }

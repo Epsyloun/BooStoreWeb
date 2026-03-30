@@ -1,10 +1,21 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaGamepad, FaHeadphones, FaKeyboard, FaMouse } from "react-icons/fa";
+import {
+  Box,
+  Button,
+  Container,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { useBreakpoint } from "../../hook/useBreakpoint";
 
 export default function BannerHome() {
   const navigate = useNavigate();
+  const theme = useTheme();
   const [isClicked, setIsClicked] = useState(false);
+  const breakpoint = useBreakpoint();
 
   const handleClick = () => {
     setIsClicked(true);
@@ -15,52 +26,159 @@ export default function BannerHome() {
   };
 
   return (
-    <div className="relative bg-dark h-[400px] flex flex-col items-center justify-center text-center mt-8 rounded-lg shadow-lg p-8 w-[90%]">
-      <h1 className="text-6xl font-bold text-white font-title">
-        Bienvenido a Boo Store
-      </h1>
-      <p className="text-lg text-white mb-8">
-        Tu tienda de confianza para todos tus productos
-      </p>
-      <div className="flex gap-4">
-        <div className="relative group">
-          {/* Iconos flotantes */}
-          <div
-            className={`absolute inset-0 flex items-center justify-center pointer-events-none ${isClicked ? "" : "opacity-0 group-hover:opacity-100"} transition-opacity duration-300`}
-          >
-            <FaGamepad
-              className={`absolute text-primary text-xl ${isClicked ? "animate-icon-bounce-1" : "animate-float-1"} -top-6 -left-2`}
-            />
-            <FaHeadphones
-              className={`absolute text-secondary text-xl ${isClicked ? "animate-icon-bounce-2" : "animate-float-2"} -top-4 -right-2`}
-            />
-            <FaKeyboard
-              className={`absolute text-primary text-lg ${isClicked ? "animate-icon-bounce-3" : "animate-float-3"} -bottom-6 -left-4`}
-            />
-            <FaMouse
-              className={`absolute text-secondary text-lg ${isClicked ? "animate-icon-bounce-4" : "animate-float-4"} -bottom-5 -right-3`}
-            />
-          </div>
-
-          <button
-            onClick={handleClick}
-            className="relative bg-primary text-white px-6 py-3 rounded-lg font-semibold 
-              shadow-[0_0_15px_rgba(153,41,234,0.5)] 
-              hover:shadow-[0_0_25px_rgba(153,41,234,0.8),0_0_50px_rgba(153,41,234,0.4)]
-              hover:scale-105
-              transition-all duration-300
-              animate-pulse-glow"
-          >
-            Ver Productos
-          </button>
-        </div>
-        <button
-          onClick={() => navigate("/about")}
-          className="bg-transparent border border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors duration-300"
+    <Container>
+      <Box
+        className="relative"
+        sx={{
+          backgroundColor: "background.default",
+          height: "400px",
+          mt: 4,
+          borderRadius: 2,
+          boxShadow: 3,
+          p: 4,
+          width: "100%",
+          mx: "auto",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+        }}
+      >
+        <Typography
+          variant="h2"
+          className="font-title"
+          sx={{ color: "white", fontWeight: "bold", fontSize: "3.5rem" }}
         >
-          Learn More
-        </button>
-      </div>
-    </div>
+          Bienvenido a Boo Store
+        </Typography>
+
+        <Typography sx={{ color: "white", mb: 4 }}>
+          Tu tienda de confianza para todos tus productos
+        </Typography>
+
+        <Stack direction={"row"} sx={{ display: "flex", gap: 2 }}>
+          <Box
+            sx={{
+              position: "relative",
+              "&:hover .icons": {
+                opacity: 1,
+              },
+            }}
+          >
+            {/* Iconos flotantes */}
+            <Box
+              className="icons"
+              sx={{
+                position: "absolute",
+                inset: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                pointerEvents: "none",
+                opacity: isClicked ? 1 : 0,
+                transition: "opacity 0.3s ease",
+              }}
+            >
+              <FaGamepad
+                className={`${
+                  isClicked ? "animate-icon-bounce-1" : "animate-float-1"
+                }`}
+                style={{
+                  position: "absolute",
+                  top: "-24px",
+                  left: "-8px",
+                  color: theme.palette.primary.main,
+                }}
+              />
+
+              <FaHeadphones
+                className={`${
+                  isClicked ? "animate-icon-bounce-2" : "animate-float-2"
+                }`}
+                style={{
+                  position: "absolute",
+                  top: "-16px",
+                  right: "-8px",
+                  color: theme.palette.secondary.main,
+                }}
+              />
+
+              <FaKeyboard
+                className={`${
+                  isClicked ? "animate-icon-bounce-3" : "animate-float-3"
+                }`}
+                style={{
+                  position: "absolute",
+                  bottom: "-24px",
+                  left: "-16px",
+                  color: theme.palette.secondary.main,
+                }}
+              />
+
+              <FaMouse
+                className={`${
+                  isClicked ? "animate-icon-bounce-4" : "animate-float-4"
+                }`}
+                style={{
+                  position: "absolute",
+                  bottom: "-20px",
+                  right: "-12px",
+                  color: theme.palette.primary.main,
+                }}
+              />
+            </Box>
+
+            <Button
+              onClick={handleClick}
+              variant="contained"
+              sx={{
+                px: 3,
+                py: 1.5,
+                borderRadius: "8px",
+                fontWeight: 600,
+
+                backgroundColor: "primary.main",
+                color: "white",
+
+                boxShadow: "0 0 15px rgba(153,41,234,0.5)",
+                transition: "all 0.3s ease",
+
+                "&:hover": {
+                  boxShadow:
+                    "0 0 25px rgba(153,41,234,0.8), 0 0 50px rgba(153,41,234,0.4)",
+                  transform: "scale(1.05)",
+                  backgroundColor: "primary.main",
+                },
+              }}
+              className="animate-pulse-glow"
+            >
+              Ver Productos
+            </Button>
+          </Box>
+
+          <Button
+            onClick={() => navigate("/about")}
+            variant="outlined"
+            sx={{
+              px: 3,
+              py: 1.5,
+              borderRadius: "8px",
+              fontWeight: 600,
+              color: "white",
+              borderColor: "white",
+              transition: "all 0.3s ease",
+
+              "&:hover": {
+                backgroundColor: "rgba(255,255,255,0.1)",
+                borderColor: "white",
+              },
+            }}
+          >
+            Learn More
+          </Button>
+        </Stack>
+      </Box>
+    </Container>
   );
 }

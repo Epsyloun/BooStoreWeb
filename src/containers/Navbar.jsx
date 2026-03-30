@@ -1,8 +1,23 @@
-import { Fragment } from "react";
-import MainSearchTextField from "../components/generic/MainSearchTextField";
-import ImageBox from "../components/generic/ImageBox";
+import React, { Fragment, useState } from "react";
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  Typography,
+  IconButton,
+  Drawer,
+  List,
+  ListItemButton,
+  ListItemText,
+  Container,
+} from "@mui/material";
+import { alpha } from "@mui/material/styles";
+import { IoMenu } from "react-icons/io5";
 import { FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+
+import MainSearchTextField from "../components/generic/MainSearchTextField";
+import ImageBox from "../components/generic/ImageBox";
 import logo from "../assets/images/boo_logo.png";
 
 const UrlLinks = [
@@ -13,52 +28,163 @@ const UrlLinks = [
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+
   return (
     <>
-      {/* Spacer para ocupar el espacio del navbar fixed */}
-      <div className="h-16"></div>
+      {/* Spacer */}
+      <Toolbar />
 
-      {/* Navbar fixed */}
-      <div className="flex justify-center bg-navbar backdrop-blur-sm border-b border-primary/40 shadow-[0_4px_30px_rgba(153,41,234,0.25)] fixed top-0 left-0 w-full z-50 h-16 px-4">
-        <div className="flex items-center gap-4 py-4 w-[90%]">
-          <div className="text-white flex-[auto] gap-2 flex flex-row justify-self-start items-center">
-            <ImageBox
-              src={logo}
-              alt="Logo de Boo Store"
+      <AppBar
+        position="fixed"
+        elevation={0}
+        sx={(theme) => ({
+          backdropFilter: "blur(10px)",
+          backgroundColor: alpha(theme.palette.background.default, 0.7),
+          borderBottom: `1px solid ${alpha(theme.palette.primary.main, 0.4)}`,
+          boxShadow: "0 4px 30px rgba(153,41,234,0.25)",
+        })}
+      >
+        <Toolbar sx={{ display: "flex", gap: 2 }}>
+          <Container
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            {/* Logo */}
+            <Box
               sx={{
-                width: 40,
-                height: 40,
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                flex: 1,
+                cursor: "pointer",
               }}
-            />{" "}
-            boo store
-          </div>
-          <div className="text-white flex-[50%] ">
-            <MainSearchTextField />
-          </div>
-          <div className="text-white flex-[30%] flex justify-evenly items-center">
-            {UrlLinks.map((link, index) => (
-              <Fragment key={link.name}>
-                <a
-                  onClick={() => navigate(link.path)}
-                  className="cursor-pointer relative px-2 py-1 text-white transition-all duration-300 
-                hover:text-primary hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(153,41,234,0.8)]
-                before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] 
-                before:bg-gradient-to-r before:from-primary before:to-secondary before:transition-all before:duration-300
-                hover:before:w-full"
-                >
-                  {link.name}
-                </a>
-                {index < UrlLinks.length - 1 && (
-                  <span className="text-gray-400">|</span>
-                )}
-              </Fragment>
+              onClick={() => navigate("/")}
+            >
+              <ImageBox src={logo} alt="Logo" sx={{ width: 40, height: 40 }} />
+              <Typography variant="h6">boo store</Typography>
+            </Box>
+
+            {/* Search (solo desktop) */}
+            <Box
+              sx={{
+                flex: 2,
+                display: { xs: "none", md: "block" },
+              }}
+            >
+              <MainSearchTextField />
+            </Box>
+
+            {/* Links (desktop) */}
+            <Box
+              sx={{
+                flex: 2,
+                display: { xs: "none", md: "flex" },
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
+              {UrlLinks.map((link, index) => (
+                <Fragment key={link.name}>
+                  <Box
+                    onClick={() => navigate(link.path)}
+                    sx={(theme) => ({
+                      cursor: "pointer",
+                      position: "relative",
+                      px: 1,
+                      py: 0.5,
+                      transition: "all 0.3s",
+                      "&:hover": {
+                        color: theme.palette.primary.main,
+                        transform: "scale(1.1)",
+                        textShadow: `0 0 8px ${alpha(
+                          theme.palette.primary.main,
+                          0.8,
+                        )}`,
+                      },
+                      "&::before": {
+                        content: '""',
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        width: 0,
+                        height: "2px",
+                        background: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                        transition: "width 0.3s",
+                      },
+                      "&:hover::before": {
+                        width: "100%",
+                      },
+                    })}
+                  >
+                    {link.name}
+                  </Box>
+
+                  {index < UrlLinks.length - 1 && (
+                    <Typography color="gray">|</Typography>
+                  )}
+                </Fragment>
+              ))}
+            </Box>
+
+            {/* Cart */}
+            {/* <IconButton
+              sx={(theme) => ({
+                color: "white",
+                transition: "all 0.3s",
+                "&:hover": {
+                  color: theme.palette.primary.main,
+                  transform: "scale(1.2)",
+                  filter: `drop-shadow(0 0 8px ${alpha(
+                    theme.palette.primary.main,
+                    0.8,
+                  )})`,
+                },
+              })}
+            >
+              <FaShoppingCart />
+            </IconButton> */}
+
+            {/* Menu button (mobile) */}
+            <IconButton
+              sx={{
+                display: { xs: "flex", md: "none" },
+                alignItems: "center",
+                justifyContent: "center",
+                color: "white.main",
+                height: "46px",
+                width: "46px",
+              }}
+              onClick={() => setOpen(true)}
+            >
+              <IoMenu />
+            </IconButton>
+          </Container>
+        </Toolbar>
+      </AppBar>
+
+      {/* Sidebar (mobile) */}
+      <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
+        <Box sx={{ width: 250 }}>
+          <List>
+            {UrlLinks.map((link) => (
+              <ListItemButton
+                key={link.name}
+                onClick={() => {
+                  navigate(link.path);
+                  setOpen(false);
+                }}
+              >
+                <ListItemText primary={link.name} />
+              </ListItemButton>
             ))}
-          </div>
-          <div className="text-white flex-1 justify-center flex ">
-            <FaShoppingCart className="text-2xl cursor-pointer transition-all duration-300 hover:text-primary hover:scale-125 hover:drop-shadow-[0_0_8px_rgba(153,41,234,0.8)]" />
-          </div>
-        </div>
-      </div>
+          </List>
+        </Box>
+      </Drawer>
     </>
   );
 }

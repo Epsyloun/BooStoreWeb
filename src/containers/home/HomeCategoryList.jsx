@@ -5,6 +5,8 @@ import { FaWrench } from "react-icons/fa6";
 import { BiSolidJoystickButton } from "react-icons/bi";
 import { BsNintendoSwitch } from "react-icons/bs";
 import Ns2Logo from "../../assets/images/Ns2Logo.jsx";
+import TitleComponent from "../../components/generic/TitleComponent.jsx";
+import { Box, Container } from "@mui/material";
 
 const categories = [
   { id: 1, title: "NS1", icon: <BsNintendoSwitch size={48} /> },
@@ -24,27 +26,42 @@ const categories = [
 
 export default function HomeCategoryList() {
   return (
-    <div className="w-[90%]">
-      <h1 className="text-white text-2xl mt-2 font-title font-semibold">
-        Categorías
-      </h1>
+    <Container>
+      <TitleComponent title={"Categorías"} />
 
-      <div className="flex gap-6 p-4 overflow-x-auto hide-scrollbar overflow-visible">
+      <Box
+        sx={{
+          display: "flex",
+          gap: 3,
+          p: 2,
+          overflowX: "auto",
+          overflowY: "visible",
+
+          // ocultar scrollbar
+          scrollbarWidth: "none", // Firefox
+          "&::-webkit-scrollbar": {
+            display: "none", // Chrome/Safari
+          },
+        }}
+      >
         {categories.map((category) => (
-          <div
+          <Box
             key={category.id}
-            className="
-              shrink-0
-              min-w-[140px]
-              lg:min-w-[160px]
-              lg:min-w-0
-              lg:flex-1
-            "
+            sx={{
+              flexShrink: 0,
+              minWidth: 140,
+
+              // md:
+              "@media (min-width:900px)": {
+                minWidth: 0,
+                flex: 1,
+              },
+            }}
           >
             <CategoryHomeButton title={category.title} icon={category.icon} />
-          </div>
+          </Box>
         ))}
-      </div>
-    </div>
+      </Box>
+    </Container>
   );
 }
