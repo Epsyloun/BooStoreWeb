@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, Zoom } from "@mui/material";
 
-export default function ImageBox({ src, alt, sx }) {
+export default function ImageBox({ src, alt, sx, timeout = 500, delay = 0 }) {
   return (
-    <Zoom in={true} timeout={500}>
+    <Zoom in={true} timeout={timeout} style={{ transitionDelay: delay }}>
       <Box
         component="img"
         src={src}

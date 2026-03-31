@@ -10,7 +10,7 @@ import Navbar from "../containers/Navbar";
 import Footer from "../containers/Footer";
 
 /**
- * 🧱 Layout principal
+ * Layout principal
  * Aquí vive toda la lógica visual (footer “detrás”)
  */
 const MainLayout = () => {
@@ -47,7 +47,7 @@ const MainLayout = () => {
 };
 
 /**
- * 🚀 App principal
+ * App principal
  */
 export default function MainApp() {
   return (

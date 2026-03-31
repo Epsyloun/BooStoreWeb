@@ -1,4 +1,4 @@
-import { TextField, InputAdornment, useTheme } from "@mui/material";
+import { TextField, InputAdornment, useTheme, alpha } from "@mui/material";
 import { FiSearch } from "react-icons/fi";
 
 export default function MainSearchTextField() {
@@ -11,10 +11,11 @@ export default function MainSearchTextField() {
       autoComplete="off"
       sx={(theme) => ({
         "& .MuiOutlinedInput-root": {
+          height: "50px",
           "& fieldset": {
-            border: `1px solid ${theme.palette.white.main}`,
+            border: `1px solid ${alpha(theme.palette.white.main, 0.5)}`,
             transition: "border-color 0.25s ease",
-            borderRadius: "8px",
+            borderRadius: "50px",
           },
           "&:hover fieldset": {
             borderColor: theme.palette.primary.main,
