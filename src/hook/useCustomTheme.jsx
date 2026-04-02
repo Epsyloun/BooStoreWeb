@@ -18,6 +18,7 @@ let customTheme = createTheme({
     background: {
       default: "#0a0a0a",
       paper: "#1e293b",
+      grey: "#222222",
     },
     text: {
       primary: "#ffffff",

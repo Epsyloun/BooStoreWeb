@@ -9,7 +9,7 @@ export default function MainSearchTextField() {
       placeholder="Buscar..."
       color="primary"
       autoComplete="off"
-      sx={(theme) => ({
+      sx={{
         "& .MuiOutlinedInput-root": {
           height: "50px",
           "& fieldset": {
@@ -21,7 +21,7 @@ export default function MainSearchTextField() {
             borderColor: theme.palette.primary.main,
           },
         },
-      })}
+      }}
       fullWidth
       InputProps={{
         startAdornment: (

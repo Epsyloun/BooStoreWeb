@@ -6,8 +6,10 @@ import {
   Typography,
   Box,
   Button,
+  Fade,
 } from "@mui/material";
-import { alpha } from "@mui/material/styles";
+import { alpha, useTheme } from "@mui/material/styles";
+import { useInView } from "../../hook/useInView";
 
 export default function ProductElement({
   image,
@@ -16,84 +18,95 @@ export default function ProductElement({
   onAdd,
   onView,
 }) {
+  const theme = useTheme();
+  const { ref, inView } = useInView({
+    once: true,
+    threshold: 0.2,
+  });
   return (
-    <Card
-      sx={(theme) => ({
-        borderRadius: 3,
-        overflow: "hidden",
-        cursor: "pointer",
-        transition: "all 0.3s ease",
-        backgroundColor: alpha(theme.palette.background.default, 0.5),
-        backdropFilter: "blur(10px)",
-
-        "&:hover": {
-          transform: "translateY(-6px)",
-          boxShadow: `0 10px 30px ${alpha(theme.palette.primary.main, 0.5)}`,
-        },
-      })}
-    >
-      {/* Imagen */}
-      <CardMedia
-        component="img"
-        image={image}
-        alt={title}
+    <Box ref={ref}>
+      <Card
         sx={{
-          height: 180,
-          objectFit: "cover",
+          borderRadius: 3,
+          overflow: "hidden",
+          cursor: "pointer",
+          transition: "all 0.5s ease",
+          backgroundColor: alpha(theme.palette.background.default, 0.5),
+          backdropFilter: "blur(10px)",
+
+          // 👇 estado inicial
+          transform: inView ? "translateY(0)" : "translateY(30px)",
+          opacity: inView ? 1 : 0,
+
+          "&:hover": {
+            transform: "translateY(-6px)",
+            boxShadow: `0 10px 30px ${alpha(theme.palette.primary.main, 0.5)}`,
+          },
         }}
-      />
-
-      {/* Contenido */}
-      <CardContent>
-        <Typography
-          variant="h6"
+      >
+        {/* Imagen */}
+        <CardMedia
+          component="img"
+          image={image}
+          alt={title}
           sx={{
-            fontWeight: 600,
-            mb: 1,
-            lineHeight: 1.2,
+            height: 180,
+            objectFit: "cover",
           }}
-        >
-          {title}
-        </Typography>
+        />
 
-        <Typography
-          variant="h6"
-          sx={(theme) => ({
-            color: theme.palette.primary.main,
-            fontWeight: 700,
-            mb: 2,
-          })}
-        >
-          {price}
-        </Typography>
-
-        {/* Botones */}
-        <Box sx={{ display: "flex", gap: 1 }}>
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={onAdd}
+        {/* Contenido */}
+        <CardContent>
+          <Typography
+            variant="h6"
             sx={{
-              textTransform: "none",
               fontWeight: 600,
+              mb: 1,
+              lineHeight: 1.2,
             }}
           >
-            Añadir
-          </Button>
+            {title}
+          </Typography>
 
-          <Button
-            variant="outlined"
-            fullWidth
-            onClick={onView}
+          <Typography
+            variant="h6"
             sx={{
-              textTransform: "none",
-              fontWeight: 600,
+              color: theme.palette.primary.main,
+              fontWeight: 700,
+              mb: 2,
             }}
           >
-            Ver más
-          </Button>
-        </Box>
-      </CardContent>
-    </Card>
+            {price}
+          </Typography>
+
+          {/* Botones */}
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={onAdd}
+              sx={{
+                textTransform: "none",
+                fontWeight: 600,
+              }}
+            >
+              Añadir
+            </Button>
+
+            <Button
+              variant="outlined"
+              fullWidth
+              onClick={onView}
+              sx={{
+                textTransform: "none",
+                fontWeight: 600,
+              }}
+            >
+              Ver más
+            </Button>
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
   );
 }

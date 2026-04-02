@@ -17,18 +17,9 @@ import Logo from "../assets/images/boo_logo.png";
 import { Link } from "react-router-dom";
 import { MdExpandMore } from "react-icons/md";
 
-export default function Footer({ setFooterHeight }) {
-  const footerRef = useRef(null);
-
-  useEffect(() => {
-    if (!footerRef.current) return;
-
-    const height = footerRef.current.offsetHeight;
-    setFooterHeight(height);
-  }, []);
+export default function Footer() {
   return (
     <Stack
-      ref={footerRef}
       component="footer"
       spacing={0}
       direction="column"
@@ -52,8 +43,8 @@ const menuLinks = [
     children: [],
   },
   {
-    title: "Categorías",
-    url: "/ayuda",
+    title: "Productos",
+    url: "/products",
     children: [
       {
         title: "Nintendo Switch 1",
@@ -74,20 +65,6 @@ const menuLinks = [
       {
         title: "Accesorios",
         url: "/products/:accessories",
-      },
-    ],
-  },
-  {
-    title: "Productos",
-    url: "/product",
-    children: [
-      {
-        title: "Más vendidos",
-        url: "/products/:bestSellers",
-      },
-      {
-        title: "Nuevos ingresos",
-        url: "/products/:newest",
       },
     ],
   },
@@ -261,10 +238,10 @@ const FooterNavbar = () => {
                         variant="h6"
                         fontWeight="bold"
                         color="secondary"
-                        sx={(theme) => ({
+                        sx={{
                           textDecoration: "none",
                           ...styledLink(theme),
-                        })}
+                        }}
                         onClick={(e) => e.stopPropagation()}
                       >
                         {link.title}
@@ -281,11 +258,11 @@ const FooterNavbar = () => {
                             component={Link}
                             to={child.url}
                             color="white"
-                            sx={(theme) => ({
+                            sx={{
                               textDecoration: "none",
 
                               ...styledSubLink(theme),
-                            })}
+                            }}
                           >
                             {child.title}
                           </Typography>

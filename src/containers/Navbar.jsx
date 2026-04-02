@@ -14,7 +14,7 @@ import {
   Fade,
   Grow,
 } from "@mui/material";
-import { alpha } from "@mui/material/styles";
+import { alpha, useTheme } from "@mui/material/styles";
 import { IoMenu } from "react-icons/io5";
 import { FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +31,7 @@ const UrlLinks = [
 ];
 
 export default function Navbar() {
+  const theme = useTheme();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
@@ -43,12 +44,12 @@ export default function Navbar() {
         <AppBar
           position="fixed"
           elevation={0}
-          sx={(theme) => ({
+          sx={{
             backdropFilter: "blur(10px)",
             backgroundColor: alpha(theme.palette.background.default, 0.7),
             borderBottom: `1px solid ${alpha(theme.palette.primary.main, 0.4)}`,
             boxShadow: "0 4px 30px rgba(153,41,234,0.25)",
-          })}
+          }}
         >
           <Toolbar sx={{ display: "flex", gap: 2 }}>
             <Container
@@ -102,7 +103,7 @@ export default function Navbar() {
                   <Fragment key={link.name}>
                     <Box
                       onClick={() => navigate(link.path)}
-                      sx={(theme) => ({
+                      sx={{
                         cursor: "pointer",
                         position: "relative",
                         px: 1,
@@ -129,7 +130,7 @@ export default function Navbar() {
                         "&:hover::before": {
                           width: "100%",
                         },
-                      })}
+                      }}
                     >
                       {link.name}
                     </Box>
