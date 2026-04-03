@@ -23,6 +23,7 @@ let customTheme = createTheme({
     text: {
       primary: "#ffffff",
       secondary: "#cbd5e1",
+      disabled: "#717171",
     },
     white: {
       main: "#ffffff",

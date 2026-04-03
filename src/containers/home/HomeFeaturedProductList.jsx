@@ -1,7 +1,7 @@
 import { Container, Grid, Fade, Box, Grow } from "@mui/material";
 import React from "react";
 import TitleComponent from "../../components/generic/TitleComponent";
-import ProductElement from "../../components/home/ProductElement";
+import ProductElement from "../../components/generic/ProductElement";
 import logoBox from "../../assets/images/product_example.webp";
 
 export default function HomeFeaturedProductList() {
@@ -14,13 +14,13 @@ export default function HomeFeaturedProductList() {
       <Grid container spacing={2}>
         {products.map((_, index) => (
           <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
-            <ProductElement
+            {/* <ProductElement
               image={logoBox}
               title="Estuche Nintendo Switch"
               price="$24.99"
               onAdd={() => console.log("Añadir")}
               onView={() => console.log("Ver más")}
-            />
+            /> */}
           </Grid>
         ))}
       </Grid>

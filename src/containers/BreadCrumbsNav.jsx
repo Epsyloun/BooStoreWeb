@@ -1,15 +1,18 @@
 import { alpha, Breadcrumbs, Link, Typography, useTheme } from "@mui/material";
-import { Link as LinkNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { MdNavigateNext } from "react-icons/md";
 
 export default function BreadCrumbsNav() {
   const theme = useTheme();
+  const navigate = useNavigate();
+
+  const goHome = () => navigate("/");
   return (
     <Breadcrumbs
       aria-label="breadcrumb"
       separator={<MdNavigateNext style={{ fontSize: "2em" }} />}
     >
-      <Link component={LinkNavigate} underline="none" color="inherit" href="/">
+      <Link underline="none" color="inherit" onClick={goHome}>
         <Typography sx={{ ...styledSubLink(theme) }} variant="h6">
           Inicio
         </Typography>
