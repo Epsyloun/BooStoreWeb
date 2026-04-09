@@ -84,7 +84,7 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
           >
             <CardMedia
               component="img"
-              image={images[0]}
+              image={images[0]?.url}
               alt={title}
               loading="lazy"
               sx={{
