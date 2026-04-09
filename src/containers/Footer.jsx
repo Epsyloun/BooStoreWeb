@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import {
   alpha,
   Box,
@@ -48,29 +48,39 @@ const menuLinks = [
     children: [
       {
         title: "Nintendo Switch 1",
-        url: "/products/:switch",
+        url: "products/?category=1&search=&tag=0",
       },
       {
         title: "Nintendo Switch 2",
-        url: "/products/:switch2",
+        url: "products/?category=2&search=&tag=0",
       },
       {
         title: "Estuches",
-        url: "/products/:cases",
+        url: "products/?category=3&search=&tag=0",
       },
       {
         title: "Repuestos",
-        url: "/products/:replace",
+        url: "products/?category=4&search=&tag=0",
       },
       {
         title: "Accesorios",
-        url: "/products/:accessories",
+        url: "products/?category=5&search=&tag=0",
       },
     ],
   },
   {
+    title: "Envios",
+    url: "/delivery",
+    children: [],
+  },
+  {
     title: "Contacto",
     url: "/contact",
+    children: [],
+  },
+  {
+    title: "Acerca de",
+    url: "/about",
     children: [],
   },
 ];

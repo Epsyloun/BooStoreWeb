@@ -24,7 +24,7 @@ export default function BannerHome() {
     setTimeout(() => {
       setIsClicked(false);
       navigate("/products");
-    }, 800);
+    }, 500);
   };
 
   return (

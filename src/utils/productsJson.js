@@ -1,12 +1,15 @@
 import image from "../assets/images/product_example.webp";
-//TODO hacer JSON de productos real y hacer excel tarea que me da weba
-export const products = [
+
+export const mochilasArray = [
   {
-    id: 1,
     title: "Mochila Switch Mario",
     description:
       "Una mochila donde cabe el Nintendo Switch 2, dock, cargador, cable HDMI, accesorios y otros elementos",
-    images: [image],
+    images: [
+      { order: 1, url: "" },
+      { order: 2, url: "" },
+      { order: 3, url: "" },
+    ],
     categories: [
       {
         id: 1,
@@ -30,13 +33,17 @@ export const products = [
     price: 25,
     discountPrice: null,
     featured: true,
+    visibility: true,
   },
   {
-    id: 2,
     title: "Mochila Switch Zelda Tears of the Kingdom",
     description:
       "Una mochila donde cabe el Nintendo Switch 2, dock, cargador, cable HDMI, accesorios y otros elementos",
-    images: [image],
+    images: [
+      { order: 1, url: "" },
+      { order: 2, url: "" },
+      { order: 3, url: "" },
+    ],
     categories: [
       {
         id: 1,
@@ -60,13 +67,17 @@ export const products = [
     price: 25,
     discountPrice: null,
     featured: true,
+    visibility: true,
   },
   {
-    id: 3,
     title: "Mochila Switch Zelda Jeroglíficos",
     description:
       "Una mochila donde cabe el Nintendo Switch 2, dock, cargador, cable HDMI, accesorios y otros elementos",
-    images: [image],
+    images: [
+      { order: 1, url: "" },
+      { order: 2, url: "" },
+      { order: 3, url: "" },
+    ],
     categories: [
       {
         id: 1,
@@ -90,13 +101,17 @@ export const products = [
     price: 25,
     discountPrice: null,
     featured: true,
+    visibility: true,
   },
   {
-    id: 4,
     title: "Mochila Switch Kirby",
     description:
       "Una mochila donde cabe el Nintendo Switch 2, dock, cargador, cable HDMI, accesorios y otros elementos",
-    images: [image],
+    images: [
+      { order: 1, url: "" },
+      { order: 2, url: "" },
+      { order: 3, url: "" },
+    ],
     categories: [
       {
         id: 1,
@@ -119,14 +134,18 @@ export const products = [
     ],
     price: 25,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
   {
-    id: 5,
     title: "Mochila Switch Rosada y Celeste",
     description:
       "Una mochila donde cabe el Nintendo Switch 2, dock, cargador, cable HDMI, accesorios y otros elementos",
-    images: [image],
+    images: [
+      { order: 1, url: "" },
+      { order: 2, url: "" },
+      { order: 3, url: "" },
+    ],
     categories: [
       {
         id: 1,
@@ -149,14 +168,18 @@ export const products = [
     ],
     price: 25,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
   {
-    id: 6,
     title: "Mochila Switch Blanca",
     description:
       "Una mochila donde cabe el Nintendo Switch 2, dock, cargador, cable HDMI, accesorios y otros elementos",
-    images: [image],
+    images: [
+      { order: 1, url: "" },
+      { order: 2, url: "" },
+      { order: 3, url: "" },
+    ],
     categories: [
       {
         id: 1,
@@ -179,14 +202,18 @@ export const products = [
     ],
     price: 25,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
   {
-    id: 7,
     title: "Mochila Switch Negra",
     description:
       "Una mochila donde cabe el Nintendo Switch 2, dock, cargador, cable HDMI, accesorios y otros elementos",
-    images: [image],
+    images: [
+      { order: 1, url: "" },
+      { order: 2, url: "" },
+      { order: 3, url: "" },
+    ],
     categories: [
       {
         id: 1,
@@ -209,8 +236,12 @@ export const products = [
     ],
     price: 25,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
+];
+
+const estuchesArray = [
   {
     id: 8,
     title: "Estuche Switch Pokemon",
@@ -235,8 +266,12 @@ export const products = [
     ],
     price: 15,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: false,
   },
+];
+
+const dockArray = [
   {
     id: 9,
     title: "Dock portátil Switch",
@@ -257,8 +292,12 @@ export const products = [
     ],
     price: 12,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
+];
+
+const casesArray = [
   {
     id: 10,
     title: "Case Switch 2 transparente",
@@ -281,6 +320,7 @@ export const products = [
     price: 15,
     discountPrice: 12,
     featured: false,
+    visibility: true,
   },
   {
     id: 11,
@@ -304,7 +344,11 @@ export const products = [
     price: 15,
     discountPrice: 12,
     featured: false,
+    visibility: true,
   },
+];
+
+const flexArray = [
   {
     id: 12,
     title: "Flex SL",
@@ -324,7 +368,8 @@ export const products = [
     tags: [],
     price: 4,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
   {
     id: 13,
@@ -345,7 +390,8 @@ export const products = [
     tags: [],
     price: 4,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
   {
     id: 14,
@@ -367,6 +413,7 @@ export const products = [
     price: 4,
     discountPrice: null,
     featured: true,
+    visibility: true,
   },
   {
     id: 15,
@@ -387,7 +434,8 @@ export const products = [
     tags: [],
     price: 4,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
   {
     id: 16,
@@ -408,7 +456,8 @@ export const products = [
     tags: [],
     price: 4,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
   {
     id: 17,
@@ -429,7 +478,8 @@ export const products = [
     tags: [],
     price: 4,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
   {
     id: 18,
@@ -451,31 +501,13 @@ export const products = [
     price: 15,
     discountPrice: null,
     featured: true,
+    visibility: true,
   },
+];
+
+const rielNormalArray = [
   {
     id: 19,
-    title: "Riel izquierdo Nintendo Switch v1/v2",
-    description:
-      "Riel izquierdo para Nintendo Switch 1 específicamente para la v1/v2",
-    images: [image],
-    categories: [
-      {
-        id: 1,
-        title: "Nintendo Switch",
-      },
-      {
-        id: 4,
-        title: "Repuestos",
-      },
-    ],
-    tags: [],
-    price: 8,
-    discountPrice: null,
-    featured: true,
-  },
-
-  {
-    id: 20,
     title: "Riel izquierdo Nintendo Switch v1/v2",
     description:
       "Riel metálico izquierdo, el que van pegado a la consola para Nintendo Switch 1 específicamente para la v1/v2",
@@ -493,10 +525,11 @@ export const products = [
     tags: [],
     price: 8,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
   {
-    id: 21,
+    id: 20,
     title: "Riel derecho Nintendo Switch v1/v2",
     description:
       "Riel metálico derecho, el que van pegado a la consola para Nintendo Switch 1 específicamente para la v1/v2",
@@ -514,10 +547,11 @@ export const products = [
     tags: [],
     price: 8,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
   {
-    id: 22,
+    id: 21,
     title: "Combo Riel izquierdo y derecho Nintendo Switch v1/v2",
     description:
       "Combo de rieles metálico izquierdo y derecho, los que van pegados a la consola para Nintendo Switch 1 específicamente para la v1/v2",
@@ -536,10 +570,12 @@ export const products = [
     price: 8,
     discountPrice: null,
     featured: true,
+    visibility: true,
   },
-
+];
+const rielOledArray = [
   {
-    id: 23,
+    id: 22,
     title: "Riel izquierdo Nintendo Switch OLED",
     description:
       "Riel metálico izquierdo, el que van pegado a la consola para Nintendo Switch 1 específicamente para la versión OLED",
@@ -557,10 +593,11 @@ export const products = [
     tags: [],
     price: 8,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
   {
-    id: 24,
+    id: 23,
     title: "Riel derecho Nintendo Switch OLED",
     description:
       "Riel metálico derecho, el que van pegado a la consola para Nintendo Switch 1 específicamente para la versión OLED",
@@ -578,10 +615,11 @@ export const products = [
     tags: [],
     price: 8,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
   {
-    id: 25,
+    id: 24,
     title: "Combo Riel izquierdo y derecho Nintendo Switch OLED",
     description:
       "Combo de rieles metálico izquierdo y derecho, los que van pegados a la consola para Nintendo Switch 1 específicamente para la versión OLED",
@@ -600,10 +638,12 @@ export const products = [
     price: 8,
     discountPrice: null,
     featured: true,
+    visibility: true,
   },
-
+];
+const sliderArray = [
   {
-    id: 26,
+    id: 25,
     title: "Slider izquierdo Nintendo Switch 1",
     description:
       "Slider plástico izquierdo, el que van pegado al Joycon izquierdo",
@@ -621,10 +661,11 @@ export const products = [
     tags: [],
     price: 8,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
   {
-    id: 27,
+    id: 26,
     title: "Slider derecho Nintendo Switch 1",
     description: "Slider plástico derecho, el que van pegado al Joycon derecho",
     images: [image],
@@ -641,10 +682,11 @@ export const products = [
     tags: [],
     price: 8,
     discountPrice: null,
-    featured: true,
+    featured: false,
+    visibility: true,
   },
   {
-    id: 28,
+    id: 27,
     title: "Combo Sliders Nintendo Switch 1",
     description:
       "Combo de Slider plástico derecho e izquierdo, son los que van pegados a los Joycons, derecho e izquierd.",
@@ -663,7 +705,27 @@ export const products = [
     price: 8,
     discountPrice: null,
     featured: true,
+    visibility: true,
   },
+];
+
+export const products = [
+  //Mochila
+  ...mochilasArray,
+  //Estuches
+  ...estuchesArray,
+  //Docks
+  ...dockArray,
+  //Cases
+  ...casesArray,
+  //Flex
+  ...flexArray,
+  //Riel Normal
+  ...rielNormalArray,
+  //Riel OLED
+  ...rielOledArray,
+  //Sliders
+  sliderArray,
 ];
 
 export const categories = [

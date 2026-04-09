@@ -41,42 +41,59 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
 
   return (
     <Box ref={ref} sx={{ display: "flex", height: "100%" }}>
-      <CardActionArea
+      <Card
         sx={{
-          color: "primary.main",
           height: "100%",
+          width: "100%",
+          borderRadius: 2,
+          overflow: "hidden",
+          cursor: "pointer",
+          transition: "all 0.5s ease",
+          backgroundColor: alpha(theme.palette.background.default, 0.5),
+          backdropFilter: "blur(10px)",
+          transform: inView ? "translateY(0)" : "translateY(30px)",
+          opacity: inView ? 1 : 0,
+          display: "flex",
+          flexDirection: "column",
+
+          "&:hover": {
+            transform: "translateY(-6px)",
+            boxShadow: `0 10px 30px ${alpha(theme.palette.primary.main, 0.5)}`,
+          },
         }}
       >
-        <Card
+        <CardActionArea
           sx={{
-            height: "100%",
-            borderRadius: 3,
-            overflow: "hidden",
-            cursor: "pointer",
-            transition: "all 0.5s ease",
-            backgroundColor: alpha(theme.palette.background.default, 0.5),
-            backdropFilter: "blur(10px)",
-
-            // 👇 estado inicial
-            transform: inView ? "translateY(0)" : "translateY(30px)",
-            opacity: inView ? 1 : 0,
-
-            "&:hover": {
-              transform: "translateY(-6px)",
-              boxShadow: `0 10px 30px ${alpha(theme.palette.primary.main, 0.5)}`,
-            },
+            color: "primary.main",
+            flex: 1,
+            borderRadius: 1,
+            width: "100%",
           }}
         >
           {/* Imagen */}
-          <CardMedia
-            component="img"
-            image={images[0]}
-            alt={title}
+          <Box
             sx={{
-              height: 180,
-              objectFit: "cover",
+              pt: 2,
+              pl: 2,
+              pr: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              overflow: "hidden",
             }}
-          />
+          >
+            <CardMedia
+              component="img"
+              image={images[0]}
+              alt={title}
+              loading="lazy"
+              sx={{
+                height: "180px",
+                objectFit: "cover",
+                borderRadius: 2,
+              }}
+            />
+          </Box>
 
           {/* Contenido */}
           <CardContent>
@@ -86,18 +103,18 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
                 fontWeight: 600,
                 mb: 1,
                 lineHeight: 1.2,
+                color: "white.main",
               }}
             >
               {title}
             </Typography>
-            <Stack direction={"row"} spacing={1} mb={2}>
+            <Stack direction={"row"} spacing={1}>
               {isInOffer && (
                 <Typography
                   variant="h6"
                   sx={{
                     color: theme.palette.secondary.main,
                     fontWeight: 700,
-                    mb: 2,
                   }}
                 >
                   ${doubleDiscountPrice}
@@ -111,41 +128,40 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
                     : theme.palette.primary.main,
                   textDecoration: isInOffer ? "line-through" : null,
                   fontWeight: isInOffer ? 400 : 700,
-                  mb: 2,
                 }}
               >
                 ${doublePice}
               </Typography>
             </Stack>
             {/* Botones */}
-            <Box sx={{ display: "flex", gap: 1 }}>
-              <Button
-                variant="contained"
-                fullWidth
-                onClick={onAdd}
-                sx={{
-                  textTransform: "none",
-                  fontWeight: 600,
-                }}
-              >
-                Añadir
-              </Button>
-
-              <Button
-                variant="outlined"
-                fullWidth
-                onClick={onView}
-                sx={{
-                  textTransform: "none",
-                  fontWeight: 600,
-                }}
-              >
-                Ver más
-              </Button>
-            </Box>
           </CardContent>
-        </Card>
-      </CardActionArea>
+        </CardActionArea>
+        <Box sx={{ display: "flex", gap: 1, p: 2 }}>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={onAdd}
+            sx={{
+              textTransform: "none",
+              fontWeight: 600,
+            }}
+          >
+            Añadir
+          </Button>
+
+          <Button
+            variant="outlined"
+            fullWidth
+            onClick={onView}
+            sx={{
+              textTransform: "none",
+              fontWeight: 600,
+            }}
+          >
+            Ver más
+          </Button>
+        </Box>
+      </Card>
     </Box>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HashRouter, Route, Routes, Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
 
@@ -9,8 +9,27 @@ import Contact from "../pages/Contact";
 import Navbar from "../containers/Navbar";
 import Footer from "../containers/Footer";
 import { PageWrapper } from "../components/animated/PageWrapper";
+import Delivery from "../pages/Delivery";
+import NotFound from "../pages/NotFound";
+import { getProducts } from "../api";
+import { useBooContext } from "../context/useBooContext";
 
 export default function MainApp() {
+  const { handleProducts } = useBooContext();
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getProducts();
+        handleProducts(data);
+        console.log("Productos obtenidos:", data);
+      } catch (error) {
+        console.error("Error al obtener productos:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <HashRouter>
       <Box>
@@ -29,14 +48,6 @@ export default function MainApp() {
             element={
               <PageWrapper>
                 <Products />
-              </PageWrapper>
-            }
-          />
-          <Route
-            path="/products/:category"
-            element={
-              <PageWrapper>
-                <h1>Product category</h1>
               </PageWrapper>
             }
           />
@@ -61,6 +72,22 @@ export default function MainApp() {
             element={
               <PageWrapper>
                 <Contact />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/delivery"
+            element={
+              <PageWrapper>
+                <Delivery />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <PageWrapper>
+                <NotFound />
               </PageWrapper>
             }
           />

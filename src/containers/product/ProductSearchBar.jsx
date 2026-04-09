@@ -14,15 +14,13 @@ import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { categories, tags } from "../../utils/productsJson";
 
-//TODO integrar filtros con JSON de producto real
-
-export const ProductSearchBar = ({ originalProducts, setFilteredList }) => {
+export const ProductSearchBar = ({
+  filters,
+  setFilters,
+  originalProducts,
+  setFilteredList,
+}) => {
   const theme = useTheme();
-  const [filters, setFilters] = useState({
-    search: "",
-    category: 0,
-    orderBy: 0,
-  });
   const [debouncedSearch, setDebouncedSearch] = useState(filters.search);
 
   const handleChange = (e) => {
@@ -73,7 +71,7 @@ export const ProductSearchBar = ({ originalProducts, setFilteredList }) => {
     }
 
     setFilteredList(result);
-  }, [debouncedSearch, filters.category, filters.orderBy, originalProducts]);
+  }, [debouncedSearch, filters.category, filters.orderBy]);
 
   return (
     <Box

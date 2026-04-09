@@ -137,16 +137,16 @@ body {
 }
 
 .animate-icon-bounce-1 {
-  animation: icon-bounce-1 0.8s ease-out forwards;
+  animation: icon-bounce-1 0.5s ease-out forwards;
 }
 .animate-icon-bounce-2 {
-  animation: icon-bounce-2 0.8s ease-out forwards 0.05s;
+  animation: icon-bounce-2 0.5s ease-out forwards 0.05s;
 }
 .animate-icon-bounce-3 {
-  animation: icon-bounce-3 0.8s ease-out forwards 0.1s;
+  animation: icon-bounce-3 0.5s ease-out forwards 0.1s;
 }
 .animate-icon-bounce-4 {
-  animation: icon-bounce-4 0.8s ease-out forwards 0.08s;
+  animation: icon-bounce-4 0.5s ease-out forwards 0.08s;
 }
 
 /* esconder scrollbar */
@@ -157,4 +157,14 @@ body {
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/*Animación de scroll infinito*/
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }

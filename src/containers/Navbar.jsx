@@ -25,9 +25,10 @@ import logo from "../assets/images/boo_logo.png";
 import { AnimatedText } from "../components/animated/AnimatedText";
 
 const UrlLinks = [
-  { name: "Estuche", path: "/products/:cases" },
-  { name: "Repuestos", path: "/products/:replace" },
-  { name: "Accesorios", path: "/products/:accessories" },
+  { name: "Productos", path: "/products" },
+  { name: "Envíos", path: "/delivery" },
+  { name: "Contacto", path: "/contact" },
+  { name: "Acerca de", path: "/about" },
 ];
 
 export default function Navbar() {
@@ -83,7 +84,7 @@ export default function Navbar() {
               <Box
                 sx={{
                   flex: 2,
-                  display: { xs: "none", md: "block" },
+                  display: { xs: "none", lg: "block" },
                 }}
               >
                 <MainSearchTextField />
@@ -93,7 +94,7 @@ export default function Navbar() {
               <Box
                 sx={{
                   flex: 2,
-                  display: { xs: "none", md: "flex" },
+                  display: { xs: "none", lg: "flex" },
                   justifyContent: "center",
                   alignItems: "center",
                   gap: 2,
@@ -163,7 +164,7 @@ export default function Navbar() {
               {/* Menu button (mobile) */}
               <IconButton
                 sx={{
-                  display: { xs: "flex", md: "none" },
+                  display: { xs: "flex", lg: "none" },
                   alignItems: "center",
                   justifyContent: "center",
                   color: "white.main",

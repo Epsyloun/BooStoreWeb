@@ -22,7 +22,7 @@ export const ProductList = memo(({ productList }) => {
 
   return (
     <>
-      <Grid container pb={2} spacing={2}>
+      <Grid container pb={2} spacing={2} justifyContent={"center"}>
         {currentProducts.map((product) => (
           <Grid key={product.id} size={{ xs: 12, sm: 6, md: 4 }}>
             <ProductElement productInfo={product} />

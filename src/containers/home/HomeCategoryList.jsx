@@ -8,25 +8,44 @@ import Ns2Logo from "../../assets/images/Ns2Logo.jsx";
 import TitleComponent from "../../components/generic/TitleComponent.jsx";
 import { Box, Container, Fade, Slide } from "@mui/material";
 import { useInView } from "../../hook/useInView.jsx";
+import { useNavigate } from "react-router-dom";
 
 const categories = [
-  { id: 1, title: "NS1", icon: <BsNintendoSwitch size={48} /> },
+  {
+    id: 1,
+    title: "NS1",
+    icon: <BsNintendoSwitch size={48} />,
+    url: "products/?category=1&search=&tag=0",
+  },
   {
     id: 2,
     title: "NS2",
     icon: <Ns2Logo width={86} height={"auto"} />,
+    url: "products/?category=2&search=&tag=0",
   },
   {
     id: 3,
     title: "Estuches",
     icon: <FaSuitcase size={48} />,
+    url: "products/?category=3&search=&tag=0",
   },
-  { id: 4, title: "Repuestos", icon: <FaWrench size={48} /> },
-  { id: 5, title: "Accesorios", icon: <BiSolidJoystickButton size={48} /> },
+  {
+    id: 4,
+    title: "Repuestos",
+    icon: <FaWrench size={48} />,
+    url: "products/?category=4&search=&tag=0",
+  },
+  {
+    id: 5,
+    title: "Accesorios",
+    icon: <BiSolidJoystickButton size={48} />,
+    url: "products/?category=5&search=&tag=0",
+  },
 ];
 
 export default function HomeCategoryList() {
   const { ref, inView } = useInView();
+  const navigate = useNavigate();
   return (
     <Container>
       <TitleComponent title={"Categorías"} />
@@ -51,7 +70,9 @@ export default function HomeCategoryList() {
             {categories.map((category) => (
               <Box
                 key={category.id}
+                onClick={() => navigate(category.url)}
                 sx={{
+                  cursor: "pointer",
                   flexShrink: 0,
                   minWidth: 140,
 
