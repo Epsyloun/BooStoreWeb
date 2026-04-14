@@ -1,4 +1,4 @@
-import image from "../assets/images/product_example.webp";
+import image from "../assets/images/placeholder.webp";
 
 export const mochilasArray = [
   {
