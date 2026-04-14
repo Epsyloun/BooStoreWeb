@@ -23,10 +23,10 @@ export default function CategoryHomeButton({
           alignItems: "center",
           cursor: "pointer",
           "&:hover .icon": {
-            color: "primary.light",
+            color: "white.main",
           },
           "&:hover .title": {
-            color: "primary.light",
+            color: "white.main",
           },
         }}
       >
@@ -41,19 +41,19 @@ export default function CategoryHomeButton({
             height: "100px",
             aspectRatio: "1 / 1",
             borderRadius: "8px",
-            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+            backgroundColor: alpha(theme.palette.white.main, 0.1),
             border: "1px solid",
-            borderColor: "primary.main",
+            borderColor: "white.main",
             transition: "box-shadow 0.2s ease",
             "&:hover": {
-              boxShadow: `0 0 16px ${alpha(theme.palette.primary.main, 0.7)}`,
+              boxShadow: `0 0 16px ${alpha(theme.palette.white.main, 0.7)}`,
             },
           }}
         >
           <Box
             className="icon"
             sx={{
-              color: "primary.main",
+              color: "white.main",
               transition: "color 0.2s ease",
             }}
           >
@@ -68,7 +68,7 @@ export default function CategoryHomeButton({
             fontSize: "1.125rem",
             fontWeight: 600,
             textAlign: "center",
-            color: "primary.main",
+            color: "white.main",
             transition: "color 0.2s ease",
           }}
         >

@@ -17,7 +17,6 @@ import {
 } from "@mui/material";
 import { FaSearch } from "react-icons/fa";
 import BreadCrumbsNav from "../containers/BreadCrumbsNav";
-import ProductElement from "../components/generic/ProductElement";
 import { ProductSearchBar } from "../containers/product/ProductSearchBar";
 import { ProductList } from "../containers/product/ProductList";
 import { useState, useEffect, useMemo } from "react";

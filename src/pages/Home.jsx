@@ -4,7 +4,12 @@ import { alpha, useTheme } from "@mui/material/styles";
 import BannerHome from "../components/home/BannerHome";
 import HomeCategoryList from "../containers/home/HomeCategoryList";
 import HomeFeaturedProductList from "../containers/home/HomeFeaturedProductList";
-import { mochilasArray } from "../utils/productsJson";
+import {
+  casesArray,
+  mochilasArray,
+  products,
+  sliderArray,
+} from "../utils/productsJson";
 
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../api";
@@ -36,9 +41,9 @@ export default function Home() {
             gap: 2,
             background: `linear-gradient(
       135deg,
-      ${alpha(theme.palette.secondary.main, 0.4)} 0%,
-      ${alpha(theme.palette.primary.main, 0.2)} 50%,
-      ${alpha(theme.palette.primary.main, 0.4)} 100%
+      ${alpha(theme.palette.primary.main, 0.5)} 0%,
+      ${alpha(theme.palette.primary.main, 0.6)} 50%,
+      ${alpha(theme.palette.secondary.main, 0.6)} 100%
     )`,
           }}
         >
@@ -56,9 +61,7 @@ const AddProductsComponent = () => {
   return (
     <Box>
       añadir productos (TEST)
-      <Button onClick={() => addProducts(mochilasArray)}>
-        Añadir productos
-      </Button>
+      <Button onClick={() => addProducts(sliderArray)}>Añadir productos</Button>
     </Box>
   );
 };

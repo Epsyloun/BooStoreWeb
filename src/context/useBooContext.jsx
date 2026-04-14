@@ -12,6 +12,7 @@ function BooProvider({ children }) {
     setProducts(newProducts);
     setLoading(false);
   }, []);
+
   const booExports = useMemo(() => {
     return {
       //values

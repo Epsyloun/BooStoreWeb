@@ -7,12 +7,14 @@ import { useBooContext } from "../../context/useBooContext";
 export default function HomeFeaturedProductList() {
   const { products } = useBooContext();
   const homeProducts = products.filter((product) => product.featured);
+  const sortedProducts = homeProducts.sort((a, b) => a.productId - b.productId);
+
   return (
     <Container sx={{ my: 2 }}>
       <TitleComponent title="Productos destacados" />
 
       <Grid container spacing={2} justifyContent={"center"}>
-        {homeProducts.map((product) => (
+        {sortedProducts.map((product) => (
           <Grid key={product.id} size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
             <ProductElement
               productInfo={product}

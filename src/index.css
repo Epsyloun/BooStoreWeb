@@ -3,9 +3,10 @@
 
 * {
   font-family: "Switzer", sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 .font-title {
-  font-family: "khand", sans-serif;
+  font-family: "Khand", sans-serif;
 }
 body {
   font-family: var(--font-body);

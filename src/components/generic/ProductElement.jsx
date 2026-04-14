@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardMedia,
@@ -13,31 +13,29 @@ import {
 } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import { useInView } from "../../hook/useInView";
-
-//TODO envolver todo en una card y poner secciones de categoría y tags
+import { useNavigate } from "react-router-dom";
+import placeholderImage from "../../assets/images/placeholder.webp";
 
 export default function ProductElement({ productInfo, onAdd, onView }) {
   const theme = useTheme();
+  const navigate = useNavigate();
   const { ref, inView } = useInView({
     once: true,
     threshold: 0.2,
   });
 
-  const {
-    id,
-    title,
-    description,
-    images,
-    categories,
-    tags,
-    price,
-    discountPrice,
-  } = productInfo;
+  const { title, gridImage, price, discountPrice } = productInfo;
 
   const doublePice = price?.toFixed(2);
   const doubleDiscountPrice = discountPrice?.toFixed(2);
 
   const isInOffer = discountPrice === null ? false : true;
+
+  const navigateToDetails =
+    onView ||
+    (() => {
+      navigate("/products/" + productInfo.id);
+    });
 
   return (
     <Box ref={ref} sx={{ display: "flex", height: "100%" }}>
@@ -63,6 +61,7 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
         }}
       >
         <CardActionArea
+          onClick={navigateToDetails}
           sx={{
             color: "primary.main",
             flex: 1,
@@ -84,7 +83,7 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
           >
             <CardMedia
               component="img"
-              image={images[0]?.url}
+              image={gridImage || placeholderImage}
               alt={title}
               loading="lazy"
               sx={{
@@ -152,7 +151,7 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
           <Button
             variant="outlined"
             fullWidth
-            onClick={onView}
+            onClick={navigateToDetails}
             sx={{
               textTransform: "none",
               fontWeight: 600,

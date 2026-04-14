@@ -13,6 +13,7 @@ import Delivery from "../pages/Delivery";
 import NotFound from "../pages/NotFound";
 import { getProducts } from "../api";
 import { useBooContext } from "../context/useBooContext";
+import ProductDetails from "../pages/ProductDetails";
 
 export default function MainApp() {
   const { handleProducts } = useBooContext();
@@ -55,7 +56,7 @@ export default function MainApp() {
             path="/products/:id"
             element={
               <PageWrapper>
-                <h1>Product Details</h1>
+                <ProductDetails />
               </PageWrapper>
             }
           />

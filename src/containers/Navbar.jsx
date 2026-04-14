@@ -21,8 +21,9 @@ import { useNavigate } from "react-router-dom";
 
 import MainSearchTextField from "../components/generic/MainSearchTextField";
 import ImageBox from "../components/generic/ImageBox";
-import logo from "../assets/images/boo_logo.png";
 import { AnimatedText } from "../components/animated/AnimatedText";
+const logo =
+  "https://firebasestorage.googleapis.com/v0/b/boo-store-cc6e5.firebasestorage.app/o/generic%2FLogoP.webp?alt=media&token=175cf9b2-87af-4083-acf1-cbb7b9d17cb9";
 
 const UrlLinks = [
   { name: "Productos", path: "/products" },
