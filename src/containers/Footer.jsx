@@ -13,7 +13,8 @@ import {
   AccordionDetails,
 } from "@mui/material";
 import ImageBox from "../components/generic/ImageBox";
-import Logo from "../assets/images/boo_logo.png";
+const Logo =
+  "https://firebasestorage.googleapis.com/v0/b/boo-store-cc6e5.firebasestorage.app/o/generic%2FLogoP.webp?alt=media&token=175cf9b2-87af-4083-acf1-cbb7b9d17cb9";
 import { Link } from "react-router-dom";
 import { MdExpandMore } from "react-icons/md";
 
