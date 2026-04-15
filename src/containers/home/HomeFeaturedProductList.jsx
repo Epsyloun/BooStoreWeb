@@ -15,11 +15,10 @@ export default function HomeFeaturedProductList() {
 
       <Grid container spacing={2} justifyContent={"center"}>
         {sortedProducts.map((product) => (
-          <Grid key={product.id} size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
+          <Grid key={product.id} size={{ xs: 6, sm: 6, md: 4, lg: 3 }}>
             <ProductElement
               productInfo={product}
               onAdd={() => console.log("Añadir")}
-              onView={() => console.log("Ver más")}
             />
           </Grid>
         ))}

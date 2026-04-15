@@ -22,7 +22,6 @@ export default function MainApp() {
       try {
         const data = await getProducts();
         handleProducts(data);
-        console.log("Productos obtenidos:", data);
       } catch (error) {
         console.error("Error al obtener productos:", error);
       }

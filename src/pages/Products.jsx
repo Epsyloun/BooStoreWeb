@@ -20,7 +20,7 @@ import BreadCrumbsNav from "../containers/BreadCrumbsNav";
 import { ProductSearchBar } from "../containers/product/ProductSearchBar";
 import { ProductList } from "../containers/product/ProductList";
 import { useState, useEffect, useMemo } from "react";
-import { useParams, useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { useBooContext } from "../context/useBooContext";
 
 export default function Products() {

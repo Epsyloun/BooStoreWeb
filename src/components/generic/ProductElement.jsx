@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardMedia,
@@ -10,19 +10,39 @@ import {
   CardActionArea,
   Chip,
   Stack,
+  useMediaQuery,
+  IconButton,
 } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import { useInView } from "../../hook/useInView";
 import { useNavigate } from "react-router-dom";
 import placeholderImage from "../../assets/images/placeholder.webp";
+import { FiShoppingCart } from "react-icons/fi"; // o "react-icons/fa" para Font Awesome
 
 export default function ProductElement({ productInfo, onAdd, onView }) {
   const theme = useTheme();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [disableRipple, setDisableRipple] = useState(false);
   const { ref, inView } = useInView({
     once: true,
     threshold: 0.2,
   });
+
+  const handleAddMouseDown = (e) => {
+    e.stopPropagation();
+    setDisableRipple(true);
+  };
+
+  const handleAddMouseUp = (e) => {
+    e.stopPropagation();
+    setDisableRipple(false);
+  };
+
+  const handleClickOnAdd = (e) => {
+    e.stopPropagation();
+    console.log("añadido");
+  };
 
   const { title, gridImage, price, discountPrice } = productInfo;
 
@@ -62,20 +82,26 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
       >
         <CardActionArea
           onClick={navigateToDetails}
+          disableRipple={disableRipple}
           sx={{
             color: "primary.main",
             flex: 1,
             borderRadius: 1,
             width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "flex-start",
           }}
         >
           {/* Imagen */}
           <Box
             sx={{
-              pt: 2,
-              pl: 2,
-              pr: 2,
+              pt: isMobile ? 1 : 2,
+              pl: isMobile ? 1 : 2,
+              pr: isMobile ? 1 : 2,
               display: "flex",
+              width: "100%",
               alignItems: "center",
               justifyContent: "center",
               overflow: "hidden",
@@ -87,15 +113,22 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
               alt={title}
               loading="lazy"
               sx={{
-                height: "180px",
+                width: "100%",
+                aspectRatio: "4 / 3",
                 objectFit: "cover",
-                borderRadius: 2,
               }}
             />
           </Box>
 
           {/* Contenido */}
-          <CardContent>
+          <CardContent
+            sx={{
+              width: "100%",
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <Typography
               variant="h6"
               sx={{
@@ -107,7 +140,8 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
             >
               {title}
             </Typography>
-            <Stack direction={"row"} spacing={1}>
+            <Box sx={{ flexGrow: 1 }} />
+            <Stack direction={"row"} spacing={1} alignItems="center">
               {isInOffer && (
                 <Typography
                   variant="h6"
@@ -131,35 +165,52 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
               >
                 ${doublePice}
               </Typography>
+              <Box sx={{ flexGrow: 1 }} />
+              {isMobile ? (
+                <IconButton
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  onMouseDown={handleAddMouseDown}
+                  onMouseUp={handleAddMouseUp}
+                  onClick={handleClickOnAdd}
+                  sx={{
+                    ml: "auto",
+                    textTransform: "none",
+                    border: `1px solid ${alpha(theme.palette.primary.main, 0.5)}`,
+                    borderRadius: 12,
+                    px: 2,
+                    transition: "all 0.5s ease",
+
+                    "&:hover": {
+                      border: `1px solid ${alpha(theme.palette.primary.main, 1)}`,
+                    },
+                  }}
+                >
+                  <FiShoppingCart />
+                </IconButton>
+              ) : (
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onMouseDown={handleAddMouseDown}
+                  onMouseUp={handleAddMouseUp}
+                  onClick={handleClickOnAdd}
+                  startIcon={<FiShoppingCart />}
+                  sx={{
+                    ml: "auto",
+                    textTransform: "none",
+                    borderRadius: 12,
+                    px: 2,
+                  }}
+                >
+                  Añadir
+                </Button>
+              )}
             </Stack>
             {/* Botones */}
           </CardContent>
         </CardActionArea>
-        <Box sx={{ display: "flex", gap: 1, p: 2 }}>
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={onAdd}
-            sx={{
-              textTransform: "none",
-              fontWeight: 600,
-            }}
-          >
-            Añadir
-          </Button>
-
-          <Button
-            variant="outlined"
-            fullWidth
-            onClick={navigateToDetails}
-            sx={{
-              textTransform: "none",
-              fontWeight: 600,
-            }}
-          >
-            Ver más
-          </Button>
-        </Box>
       </Card>
     </Box>
   );
