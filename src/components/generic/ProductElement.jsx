@@ -130,7 +130,7 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
             }}
           >
             <Typography
-              variant="h6"
+              variant={isMobile ? "body1" : "h5"}
               sx={{
                 fontWeight: 600,
                 mb: 1,
@@ -141,7 +141,15 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
               {title}
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <Stack direction={"row"} spacing={1} alignItems="center">
+            <Stack
+              direction={"row"}
+              spacing={1}
+              alignItems="center"
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+              }}
+            >
               {isInOffer && (
                 <Typography
                   variant="h6"
@@ -165,50 +173,51 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
               >
                 ${doublePice}
               </Typography>
-              <Box sx={{ flexGrow: 1 }} />
-              {isMobile ? (
-                <IconButton
-                  variant="outlined"
-                  color="primary"
-                  size="small"
-                  onMouseDown={handleAddMouseDown}
-                  onMouseUp={handleAddMouseUp}
-                  onClick={handleClickOnAdd}
-                  sx={{
-                    ml: "auto",
-                    textTransform: "none",
-                    border: `1px solid ${alpha(theme.palette.primary.main, 0.5)}`,
-                    borderRadius: 12,
-                    px: 2,
-                    transition: "all 0.5s ease",
+              <Stack sx={{ flexGrow: 1 }}>
+                <Box sx={{ flexGrow: 1 }} />
+                {isMobile ? (
+                  <IconButton
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                    onMouseDown={handleAddMouseDown}
+                    onMouseUp={handleAddMouseUp}
+                    onClick={handleClickOnAdd}
+                    sx={{
+                      ml: "auto",
+                      textTransform: "none",
+                      border: `1px solid ${alpha(theme.palette.primary.main, 0.5)}`,
+                      borderRadius: 12,
+                      px: 2,
+                      transition: "all 0.5s ease",
 
-                    "&:hover": {
-                      border: `1px solid ${alpha(theme.palette.primary.main, 1)}`,
-                    },
-                  }}
-                >
-                  <FiShoppingCart />
-                </IconButton>
-              ) : (
-                <Button
-                  variant="outlined"
-                  size="small"
-                  onMouseDown={handleAddMouseDown}
-                  onMouseUp={handleAddMouseUp}
-                  onClick={handleClickOnAdd}
-                  startIcon={<FiShoppingCart />}
-                  sx={{
-                    ml: "auto",
-                    textTransform: "none",
-                    borderRadius: 12,
-                    px: 2,
-                  }}
-                >
-                  Añadir
-                </Button>
-              )}
+                      "&:hover": {
+                        border: `1px solid ${alpha(theme.palette.primary.main, 1)}`,
+                      },
+                    }}
+                  >
+                    <FiShoppingCart />
+                  </IconButton>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onMouseDown={handleAddMouseDown}
+                    onMouseUp={handleAddMouseUp}
+                    onClick={handleClickOnAdd}
+                    startIcon={<FiShoppingCart />}
+                    sx={{
+                      ml: "auto",
+                      textTransform: "none",
+                      borderRadius: 12,
+                      px: 2,
+                    }}
+                  >
+                    Añadir
+                  </Button>
+                )}
+              </Stack>
             </Stack>
-            {/* Botones */}
           </CardContent>
         </CardActionArea>
       </Card>

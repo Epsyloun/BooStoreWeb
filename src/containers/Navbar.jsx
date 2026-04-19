@@ -13,6 +13,7 @@ import {
   Slide,
   Fade,
   Grow,
+  useMediaQuery,
 } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import { IoMenu } from "react-icons/io5";
@@ -23,8 +24,7 @@ import MainSearchTextField from "../components/generic/MainSearchTextField";
 import ImageBox from "../components/generic/ImageBox";
 import { AnimatedText } from "../components/animated/AnimatedText";
 const logo =
-  "https://firebasestorage.googleapis.com/v0/b/boo-store-cc6e5.firebasestorage.app/o/generic%2FLogoP.webp?alt=media&token=175cf9b2-87af-4083-acf1-cbb7b9d17cb9";
-
+  "https://firebasestorage.googleapis.com/v0/b/boo-store-cc6e5.firebasestorage.app/o/generic%2FLogoLetras.webp?alt=media&token=65fc8851-5aac-4fb1-8ab3-330fe85bdc02";
 const UrlLinks = [
   { name: "Productos", path: "/products" },
   { name: "Envíos", path: "/delivery" },
@@ -34,6 +34,7 @@ const UrlLinks = [
 
 export default function Navbar() {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
@@ -76,9 +77,9 @@ export default function Navbar() {
                   src={logo}
                   alt="Logo"
                   delay={250}
-                  sx={{ width: 40, height: 40 }}
+                  sx={{ width: "auto", height: isMobile ? "40px" : "50px" }}
                 />
-                <AnimatedText text="Boo Store" allDelay={0.7} />
+                {/* <AnimatedText text="Boo Store" allDelay={0.7} /> */}
               </Box>
 
               {/* Search (solo desktop) */}

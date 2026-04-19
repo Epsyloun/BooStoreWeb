@@ -77,7 +77,7 @@ export default function Products() {
         }}
       >
         <Container sx={{ py: 2 }}>
-          <BreadCrumbsNav />
+          <BreadCrumbsNav lastChild={"Productos"} />
           {loading ? (
             <Box
               sx={{

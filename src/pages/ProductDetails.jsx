@@ -11,6 +11,7 @@ import {
   useMediaQuery,
   useTheme,
   Fade,
+  Button,
 } from "@mui/material";
 import ImageBox from "../components/generic/ImageBox";
 import { BiBorderRadius } from "react-icons/bi";
@@ -18,6 +19,7 @@ import SkeletonProductDetail from "../containers/product/SkeletonProductDetail";
 import { Skeleton } from "@mui/material";
 import ProductNotFound from "../containers/product/ProductNotFound";
 import ImageCarousel from "../components/product/ImageCarousel";
+import BreadCrumbsNav from "../containers/BreadCrumbsNav";
 const placeholderImage =
   "https://firebasestorage.googleapis.com/v0/b/boo-store-cc6e5.firebasestorage.app/o/generic%2Fplaceholder.webp?alt=media&token=01f4b878-afdf-4786-bee4-7a8b3d09a950";
 
@@ -28,6 +30,13 @@ export default function ProductDetails() {
   const { products, loading } = useBooContext();
   const [imageLoading, setImageLoading] = useState(true);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   const product = products.find((p) => String(p.id) === id);
 
@@ -76,6 +85,17 @@ export default function ProductDetails() {
 
   return (
     <Container>
+      <Stack spacing={2} py={1}>
+        <BreadCrumbsNav
+          childs={[
+            {
+              title: "Productos",
+              url: "/products",
+            },
+          ]}
+          lastChild={title}
+        />
+      </Stack>
       <Grid container spacing={2} py={2}>
         <Grid
           size={{ xs: 12, sm: 12, md: 1 }}

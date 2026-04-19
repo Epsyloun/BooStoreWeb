@@ -5,6 +5,18 @@ export default function SkeletonProductDetail() {
   return (
     <Container>
       <Grid container spacing={2} py={2}>
+        {/* Navegacion */}
+        <Grid size={{ xs: 1, md: 1 }}>
+          <Skeleton variant="rounded" sx={{ width: "100%", height: "20px" }} />
+        </Grid>
+        <Grid size={{ xs: 1, md: 1 }}>
+          <Skeleton variant="rounded" sx={{ width: "100%", height: "20px" }} />
+        </Grid>
+        <Grid size={{ xs: 1, md: 1 }}>
+          <Skeleton variant="rounded" sx={{ width: "100%", height: "20px" }} />
+        </Grid>
+        <Grid size={{ xs: 9, md: 9 }} />
+
         {/* Imagen */}
         <Grid size={{ xs: 12, md: 5 }}>
           <Skeleton

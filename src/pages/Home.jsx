@@ -13,6 +13,7 @@ import {
 
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../api";
+import { useEffect } from "react";
 
 const addProducts = async (products) => {
   try {
@@ -28,6 +29,12 @@ const addProducts = async (products) => {
 
 export default function Home() {
   const theme = useTheme();
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
   return (
     <Box>
       <Box component="main">

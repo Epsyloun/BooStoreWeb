@@ -2,7 +2,7 @@ import { alpha, Breadcrumbs, Link, Typography, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { MdNavigateNext } from "react-icons/md";
 
-export default function BreadCrumbsNav() {
+export default function BreadCrumbsNav({ childs = [], lastChild = null }) {
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -13,13 +13,29 @@ export default function BreadCrumbsNav() {
       separator={<MdNavigateNext style={{ fontSize: "2em" }} />}
     >
       <Link underline="none" color="inherit" onClick={goHome}>
-        <Typography sx={{ ...styledSubLink(theme) }} variant="h6">
+        <Typography sx={{ ...styledSubLink(theme) }} variant="body1">
           Inicio
         </Typography>
       </Link>
-      <Typography sx={{ color: "primary.main" }}>
-        <Typography variant="h6">Productos</Typography>
-      </Typography>
+      {Array.isArray(childs) &&
+        childs.length > 0 &&
+        childs.map((child) => (
+          <Link
+            key={child?.title}
+            underline="none"
+            color="inherit"
+            onClick={() => navigate(child?.url || "#")}
+          >
+            <Typography sx={{ ...styledSubLink(theme) }} variant="body1">
+              {child?.title}
+            </Typography>
+          </Link>
+        ))}
+      {lastChild && (
+        <Typography sx={{ color: "primary.main" }}>
+          <Typography variant="body1">{lastChild}</Typography>
+        </Typography>
+      )}
     </Breadcrumbs>
   );
 }
