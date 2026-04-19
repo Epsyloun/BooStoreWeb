@@ -5,18 +5,16 @@ import {
   Box,
   Typography,
   IconButton,
-  Drawer,
-  List,
-  ListItemButton,
-  ListItemText,
   Container,
   Slide,
   Fade,
   Grow,
   useMediaQuery,
+  Backdrop,
 } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import { IoMenu } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 import { FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -181,25 +179,184 @@ export default function Navbar() {
           </Toolbar>
         </AppBar>
 
-        {/* Sidebar (mobile) */}
-        <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
-          <Box sx={{ width: 250 }}>
-            <List>
-              {UrlLinks.map((link) => (
-                <ListItemButton
-                  key={link.name}
-                  onClick={() => {
-                    navigate(link.path);
-                    setOpen(false);
-                  }}
-                >
-                  <ListItemText primary={link.name} />
-                </ListItemButton>
-              ))}
-            </List>
-          </Box>
-        </Drawer>
+        {/* Sidebar (mobile) - Fullscreen Custom Drawer */}
+        <Backdrop
+          open={open}
+          onClick={() => setOpen(false)}
+          sx={{
+            backgroundColor: alpha(theme.palette.background.default, 0.8),
+            backdropFilter: "blur(8px)",
+            zIndex: 1200,
+          }}
+        />
+        <MobileDrawer
+          open={open}
+          UrlLinks={UrlLinks}
+          navigate={navigate}
+          setOpen={setOpen}
+        />
       </div>
     </Slide>
   );
 }
+
+const MobileDrawer = ({ open, UrlLinks, navigate, setOpen }) => {
+  const theme = useTheme();
+  return (
+    <Fade in={open} timeout={300}>
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          right: 0,
+          width: "100%",
+          height: "100vh",
+          backgroundColor: alpha(theme.palette.background.default, 0.95),
+          backdropFilter: "blur(10px)",
+          zIndex: 1300,
+          display: { xs: open ? "flex" : "none", lg: "none" },
+          flexDirection: "column",
+          animation: open
+            ? "slideInRight 0.4s cubic-bezier(0.23, 1, 0.320, 1)"
+            : "slideOutRight 0.4s cubic-bezier(0.770, 0, 0.175, 1)",
+          "@keyframes slideInRight": {
+            from: {
+              transform: "translateX(100%)",
+              opacity: 0,
+            },
+            to: {
+              transform: "translateX(0)",
+              opacity: 1,
+            },
+          },
+          "@keyframes slideOutRight": {
+            from: {
+              transform: "translateX(0)",
+              opacity: 1,
+            },
+            to: {
+              transform: "translateX(100%)",
+              opacity: 0,
+            },
+          },
+        }}
+      >
+        {/* Header del Drawer */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            p: 2,
+            borderBottom: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+          }}
+        >
+          <Box sx={{ flexGrow: 1 }} />
+          {/* <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                Menú
+              </Typography> */}
+          <IconButton
+            onClick={() => setOpen(false)}
+            sx={{
+              color: theme.palette.primary.main,
+              transition: "all 0.3s",
+              "&:hover": {
+                transform: "rotate(90deg) scale(1.1)",
+              },
+            }}
+          >
+            <IoClose size={24} />
+          </IconButton>
+        </Box>
+
+        {/* Search en drawer */}
+          <Box sx={{ pt: 2, px: 2 }}>
+            <MainSearchTextField />
+          </Box>
+
+        {/* Links */}
+        <Box
+          component="nav"
+          sx={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+            p: 2,
+            overflow: "auto",
+          }}
+        >
+          {UrlLinks.map((link, index) => (
+            <Grow
+              key={link.name}
+              in={open}
+              timeout={300 + index * 100}
+              style={{ transformOrigin: "right center" }}
+            >
+              <Box
+                onClick={() => {
+                  navigate(link.path);
+                  setOpen(false);
+                }}
+                sx={{
+                  px: 2,
+                  py: 2,
+                  borderRadius: 1,
+                  cursor: "pointer",
+                  transition: "all 0.3s cubic-bezier(0.23, 1, 0.320, 1)",
+                  background: alpha(theme.palette.primary.main, 0),
+                  position: "relative",
+                  overflow: "hidden",
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    left: 0,
+                    top: 0,
+                    height: "100%",
+                    width: "4px",
+                    background: `linear-gradient(to bottom, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                    transform: "scaleY(0)",
+                    transformOrigin: "top",
+                    transition:
+                      "transform 0.3s cubic-bezier(0.23, 1, 0.320, 1)",
+                  },
+                  "&:hover": {
+                    backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                    paddingLeft: 3,
+                    "&::before": {
+                      transform: "scaleY(1)",
+                    },
+                  },
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: "1.1rem",
+                    fontWeight: 500,
+                    color: "white",
+                    transition: "all 0.3s",
+                  }}
+                >
+                  {link.name}
+                </Typography>
+              </Box>
+            </Grow>
+          ))}
+        </Box>
+
+        {/* Footer del drawer */}
+        <Box
+          sx={{
+            p: 2,
+            borderTop: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="caption" sx={{ color: "gray" }}>
+            © 2026 Boo Store
+          </Typography>
+        </Box>
+      </Box>
+    </Fade>
+  );
+};
