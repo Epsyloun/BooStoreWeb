@@ -261,8 +261,8 @@ export const FixedPointSectionDelivery = () => {
                     <QRCodeSVG
                       value={DELIVERY_MAPS_URL}
                       size={200}
-                      level="L"
-                      fgColor={theme.palette.primary.main}
+                      level="H"
+                      fgColor={theme.palette.secondary.main}
                       bgColor={theme.palette.background.paper}
                     />
                   </Box>

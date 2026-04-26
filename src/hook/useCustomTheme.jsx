@@ -27,6 +27,7 @@ let customTheme = createTheme({
     },
     white: {
       main: "#ffffff",
+      dark: "#e5e5e5",
     },
   },
   typography: {

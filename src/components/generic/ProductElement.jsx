@@ -73,9 +73,10 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
           opacity: inView ? 1 : 0,
           display: "flex",
           flexDirection: "column",
+          border: `2px solid ${alpha(theme.palette.primary.main, 0.75)}`,
 
           "&:hover": {
-            transform: "translateY(-6px)",
+            transform: "translateY(-4px)",
             boxShadow: `0 10px 30px ${alpha(theme.palette.primary.main, 0.5)}`,
           },
         }}
@@ -116,6 +117,7 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
                 width: "100%",
                 aspectRatio: "4 / 3",
                 objectFit: "cover",
+                borderRadius: 1,
               }}
             />
           </Box>
