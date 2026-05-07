@@ -41,7 +41,7 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
 
   const handleClickOnAdd = (e) => {
     e.stopPropagation();
-    console.log("añadido");
+    //console.log("añadido");
   };
 
   const { title, gridImage, price, discountPrice } = productInfo;

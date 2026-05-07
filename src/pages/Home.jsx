@@ -19,9 +19,9 @@ const addProducts = async (products) => {
   try {
     for (const product of products) {
       await addDoc(collection(db, "productos"), product);
-      console.log("Producto añadido:", product.title);
+      //console.log("Producto añadido:", product.title);
     }
-    console.log("Todos los productos fueron añadidos");
+    //console.log("Todos los productos fueron añadidos");
   } catch (error) {
     console.error("Error al añadir productos:", error);
   }

@@ -33,9 +33,9 @@ export const CoverageSectionDelivery = () => {
     <Container>
       <Typography
         variant="h4"
+        className="font-title"
         sx={{
           fontWeight: "bold",
-          fontFamily: "Khand",
           mb: 4,
           display: "flex",
           alignItems: "center",

@@ -169,8 +169,8 @@ export default function ProductDetails() {
           </Stack>
           <Typography
             variant="h3"
+            className="font-title"
             fontWeight={"bold"}
-            fontFamily={"Khand"}
             py={1}
           >
             {title || "Título del Producto"}

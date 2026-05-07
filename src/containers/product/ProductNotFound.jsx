@@ -42,10 +42,10 @@ export default function ProductUnavailable({ title, subtitle }) {
         {/* Título */}
         <Typography
           variant="h3"
+          className="font-title"
           sx={{
             fontWeight: "bold",
             mb: 1,
-            fontFamily: "Khand",
             background: `linear-gradient(135deg, ${theme.palette.secondary.main} 0%, ${theme.palette.primary.main} 100%)`,
             backgroundClip: "text",
             WebkitBackgroundClip: "text",
