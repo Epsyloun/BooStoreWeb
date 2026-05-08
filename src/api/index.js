@@ -25,7 +25,10 @@ export const db = getFirestore(app);
 //Obtener productos de Firebase
 
 export const getProducts = async () => {
+  console.log("Obteniendo productos de Firebase...");
   const querySnapshot = await getDocs(collection(db, "productos"));
+
+  console.log("Query snapshot:", querySnapshot);
 
   const products = querySnapshot.docs.map((doc) => ({
     id: doc.id,

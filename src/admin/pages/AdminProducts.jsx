@@ -1,18 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { Box, Container, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { getAllProductsWithInternal } from "../api/api";
 import ProductTableList from "../components/product/ProductTableList";
+import ProductCardView from "../components/product/ProductCardView";
+import SearchProductBar from "../components/product/SearchProductBar";
 import { useAuthContext } from "../context/useAuthContext";
 import ViewOrEditProduct from "../layout/ViewOrEditProduct";
 
 export default function AdminDashboard() {
   const { selectedProduct, setSelectedProduct } = useAuthContext();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [viewOrEditMode, setViewOrEditMode] = useState("view");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -32,6 +44,23 @@ export default function AdminDashboard() {
     fetchData();
   }, []);
 
+  // Debounce para el término de búsqueda (300ms)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  // Filtrar productos por término de búsqueda
+  const filteredProducts = products.filter((product) => {
+    const searchLower = debouncedSearchTerm.toLowerCase();
+    const titleMatch = product.title?.toLowerCase().includes(searchLower);
+    const skuMatch = product.sku?.toLowerCase().includes(searchLower);
+    return titleMatch || skuMatch;
+  });
+
   return (
     <Box
       bgcolor="background.adminBackground"
@@ -49,16 +78,32 @@ export default function AdminDashboard() {
         Gestión de Productos
       </Typography>
 
-      {/* <SearchProductAdmin /> */}
-      <ProductTableList
-        products={products}
-        isLoading={isLoading}
-        error={error}
-        onRetry={fetchData}
-        setSelectedProduct={setSelectedProduct}
-        setDrawerOpen={setDrawerOpen}
-        setViewOrEditMode={setViewOrEditMode}
+      <SearchProductBar
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
       />
+
+      {isMobile ? (
+        <ProductCardView
+          products={filteredProducts}
+          isLoading={isLoading}
+          error={error}
+          onRetry={fetchData}
+          setSelectedProduct={setSelectedProduct}
+          setDrawerOpen={setDrawerOpen}
+          setViewOrEditMode={setViewOrEditMode}
+        />
+      ) : (
+        <ProductTableList
+          products={filteredProducts}
+          isLoading={isLoading}
+          error={error}
+          onRetry={fetchData}
+          setSelectedProduct={setSelectedProduct}
+          setDrawerOpen={setDrawerOpen}
+          setViewOrEditMode={setViewOrEditMode}
+        />
+      )}
 
       {/* Drawer para editar producto */}
       <ViewOrEditProduct

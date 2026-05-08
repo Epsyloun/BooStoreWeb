@@ -38,6 +38,7 @@ export default function Products() {
     category: categoryParam || 0,
     orderBy: tagParam || 0,
   });
+  console.log("Product list:", products);
 
   // Actualizar URL cuando cambian los filtros
   useEffect(() => {
