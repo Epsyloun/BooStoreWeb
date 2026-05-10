@@ -10,7 +10,10 @@ import {
   where,
 } from "firebase/firestore";
 
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 const db = getFirestore();
+const storage = getStorage();
 
 // Obtener todos los productos con su información interna combinada
 export const getAllProductsWithInternal = async () => {
@@ -84,15 +87,54 @@ export const getProducts = async () => {
 // Guardar o actualizar producto con datos públicos y privados
 export const saveOrUpdateProduct = async (formData) => {
   try {
+    // Si hay una nueva imagen de grid, subirla primero y obtener su URL
+    let uploadedGridImage = null;
+
+    if (formData.gridImage?.file) {
+      const gridPath = `products/productImages/grid/${formData.gridImage.fileName}`;
+      const uploadResult = await uploadImageToStorage({
+        file: formData.gridImage.file,
+        path: gridPath,
+      });
+      uploadedGridImage = {
+        url: uploadResult.url,
+        path: uploadResult.path,
+        fileName: formData.gridImage.fileName,
+      };
+    }
+
+    // Si hay nuevas imágenes de carrusel, subirlas y obtener sus URLs
+    let uploadedCarouselImages = [];
+    if (formData.images?.length) {
+      uploadedCarouselImages = await Promise.all(
+        formData.images.map(async (image) => {
+          // si ya existe url no volver a subir
+          if (image.url) {
+            return image;
+          }
+          const imagePath = `products/productImages/carousel/${image.fileName}`;
+          const uploadResult = await uploadImageToStorage({
+            file: image.file,
+            path: imagePath,
+          });
+          return {
+            order: image.order,
+            url: uploadResult.url,
+            path: uploadResult.path,
+            fileName: image.fileName,
+          };
+        }),
+      );
+    }
+
     // Datos públicos del producto
     const publicProductData = {
       sku: formData.sku || "",
       title: formData.title || "",
       description: formData.description || "",
-      gridImage: formData.gridImage || "",
-      images: formData.images || [],
+      gridImage: uploadedGridImage || formData.gridImage || "",
+      images: uploadedCarouselImages || formData.images || [],
       categories: formData.categories || [],
-      tags: formData.tags || [],
       price: parseFloat(formData.price) || 0,
       discountPrice: parseFloat(formData.discountPrice) || 0,
       discountPercentage: parseFloat(formData.discountPercentage) || 0,
@@ -213,6 +255,30 @@ export const getProductoInternoByProductId = async (productId) => {
       error: error.message,
       message: "Error al obtener datos privados del producto",
       data: null,
+    };
+  }
+};
+
+//helpers
+const uploadImageToStorage = async ({ file, path }) => {
+  try {
+    const storageRef = ref(storage, path);
+
+    await uploadBytes(storageRef, file);
+
+    const url = await getDownloadURL(storageRef);
+
+    return {
+      success: true,
+      url,
+      path,
+    };
+  } catch (error) {
+    console.error(error);
+
+    return {
+      success: false,
+      error,
     };
   }
 };

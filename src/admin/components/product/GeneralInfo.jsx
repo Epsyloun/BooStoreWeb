@@ -53,14 +53,12 @@ export default function GeneralInfo({ formData, handleChange, setFormData }) {
             <GeneralProductInfo
               formData={formData}
               handleChange={handleChange}
-              setFormData={setFormData}
             />
             <Box mt={2} />
             {/* Precios internos */}
             <InternalPricingInfo
               formData={formData}
               handleChange={handleChange}
-              setFormData={setFormData}
             />
           </Grid>
           {/* Precios, Visibilidad, Destacado y Stock */}
@@ -69,21 +67,18 @@ export default function GeneralInfo({ formData, handleChange, setFormData }) {
             <PricingInfo
               formData={formData}
               handleChange={handleChange}
-              setFormData={setFormData}
             />
             <Box mt={2} />
             {/* Visibilidad y Destacado */}
             <VisibilitySettings
               formData={formData}
               handleChange={handleChange}
-              setFormData={setFormData}
             />
             <Box mt={2} />
             {/* Stock */}
             <StockInfo
               formData={formData}
               handleChange={handleChange}
-              setFormData={setFormData}
             />
           </Grid>
         </Grid>

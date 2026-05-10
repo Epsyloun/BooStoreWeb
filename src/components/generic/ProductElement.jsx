@@ -49,8 +49,7 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
   const doublePice = price?.toFixed(2);
   const doubleDiscountPrice = discountPrice?.toFixed(2);
 
-  const isInOffer =
-    discountPrice === null || discountPrice === 0 ? false : true;
+  const isInOffer = discountPrice === null || discountPrice == 0 ? false : true;
 
   const navigateToDetails =
     onView ||
@@ -111,7 +110,7 @@ export default function ProductElement({ productInfo, onAdd, onView }) {
           >
             <CardMedia
               component="img"
-              image={gridImage || placeholderImage}
+              image={gridImage?.url || gridImage || placeholderImage}
               alt={title}
               loading="lazy"
               sx={{

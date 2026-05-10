@@ -18,7 +18,6 @@ const initialProductState = {
   gridImage: "",
   images: [],
   categories: [],
-  tags: [],
   price: 0,
   discountPrice: 0,
   discountPercentage: 0,

@@ -2,7 +2,7 @@ import { alpha, Box, Stack, useTheme } from "@mui/material";
 import { TitleSection } from "../../components/product/generalInfo";
 import { FaArchive } from "react-icons/fa";
 import AdminStyledTxt from "../../components/generic/AdminStyledTxt";
-import { categories, tags } from "../../utils/categoriesAndTags";
+import { categories } from "../../utils/categoriesAndTags";
 import AdminAutocomplete from "../../components/generic/AdminAutocomplete";
 
 export const GeneralProductInfo = ({ formData, handleChange }) => {
@@ -43,16 +43,6 @@ export const GeneralProductInfo = ({ formData, handleChange }) => {
           options={categories}
           multiple={true}
           placeholder="Selecciona o escribe categorías..."
-          size="small"
-        />
-        <AdminAutocomplete
-          label="Tags"
-          name="tags"
-          value={formData.tags || []}
-          onChange={handleChange}
-          options={tags}
-          multiple={true}
-          placeholder="Selecciona o escribe tags..."
           size="small"
         />
         <AdminStyledTxt

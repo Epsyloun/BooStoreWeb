@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Container,
+  Grid,
   Typography,
   useMediaQuery,
   useTheme,
+  Button,
 } from "@mui/material";
+import { FaPlus } from "react-icons/fa";
 import { getAllProductsWithInternal } from "../api/api";
 import ProductTableList from "../components/product/ProductTableList";
 import ProductCardView from "../components/product/ProductCardView";
@@ -61,6 +64,12 @@ export default function AdminDashboard() {
     return titleMatch || skuMatch;
   });
 
+  const handleCreateProduct = () => {
+    setSelectedProduct(null);
+    setViewOrEditMode("create");
+    setDrawerOpen(true);
+  };
+
   return (
     <Box
       bgcolor="background.adminBackground"
@@ -78,10 +87,27 @@ export default function AdminDashboard() {
         Gestión de Productos
       </Typography>
 
-      <SearchProductBar
-        searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-      />
+      <Grid container spacing={2}>
+        <Grid size={{ xs: 12, md: 10 }}>
+          <SearchProductBar
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, md: 2 }}>
+          <Button
+            fullWidth
+            variant="contained"
+            startIcon={<FaPlus />}
+            sx={{
+              borderRadius: "50px",
+            }}
+            onClick={handleCreateProduct}
+          >
+            Crear Producto
+          </Button>
+        </Grid>
+      </Grid>
 
       {isMobile ? (
         <ProductCardView

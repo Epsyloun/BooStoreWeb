@@ -1,35 +1,177 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-  Drawer,
   Box,
   IconButton,
   Typography,
-  TextField,
   Button,
   Stack,
-  Divider,
   useTheme,
   Grid,
   Container,
+  CircularProgress,
+  alpha,
+  Alert,
 } from "@mui/material";
-import { FaTimes } from "react-icons/fa";
-import { useAuthContext } from "../../context/useAuthContext";
+import {
+  FaTrash,
+  FaPlus,
+  FaImage,
+  FaImages,
+  FaGripVertical,
+} from "react-icons/fa";
+import { TitleSection } from "../product/generalInfo";
+import { optimizeImage } from "../../utils/optimizeImage";
 
-export default function EditImage() {
-  const { selectedProduct } = useAuthContext();
+export default function EditImage({ formData, onUpdateFormData }) {
   const theme = useTheme();
-  const [formData, setFormData] = useState(selectedProduct || {});
+  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [isProcessingGrid, setIsProcessingGrid] = useState(false);
+  const [isProcessingCarousel, setIsProcessingCarousel] = useState(false);
 
-  useEffect(() => {
-    setFormData(selectedProduct || {});
-  }, [selectedProduct]);
+  const images = formData?.images || [];
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
+  // Manejar upload de imagen de grid
+  const handleGridImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    try {
+      setIsProcessingGrid(true);
+
+      const optimizedFile = await optimizeImage({
+        file,
+        convertToWebP: true,
+        resize: true,
+        width: 400,
+        height: 400,
+        quality: 0.8,
+      });
+
+      const preview = URL.createObjectURL(optimizedFile);
+
+      onUpdateFormData({
+        gridImage: {
+          preview,
+          file: optimizedFile,
+          fileName: optimizedFile.name,
+          status: "ready",
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsProcessingGrid(false);
+    }
+  };
+
+  // Eliminar imagen de grid
+  const handleDeleteGridImage = () => {
+    onUpdateFormData({
+      gridImage: "",
     });
+  };
+
+  // Manejar upload de imágenes del carrusel
+  const handleCarouselImageUpload = async (e) => {
+    const files = e.target.files;
+    const MAX_IMAGES = 20;
+
+    if (!files) return;
+
+    try {
+      setIsProcessingCarousel(true);
+
+      const remainingSlots = MAX_IMAGES - images.length;
+
+      const filesToProcess = Array.from(files).slice(0, remainingSlots);
+
+      const maxOrder =
+        images.length > 0
+          ? Math.max(...images.map((img) => img.order || 0))
+          : 0;
+
+      const optimizedImages = await Promise.all(
+        filesToProcess.map(async (file, index) => {
+          const optimizedFile = await optimizeImage({
+            file,
+            convertToWebP: true,
+            resize: true,
+            width: 1200,
+            height: 1200,
+            quality: 0.85,
+          });
+
+          return {
+            order: maxOrder + index + 1,
+
+            preview: URL.createObjectURL(optimizedFile),
+
+            file: optimizedFile,
+
+            fileName: optimizedFile.name,
+
+            status: "ready",
+          };
+        }),
+      );
+
+      onUpdateFormData({
+        images: [...images, ...optimizedImages],
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsProcessingCarousel(false);
+    }
+  };
+
+  // Eliminar imagen del carrusel
+  const handleDeleteCarouselImage = (index) => {
+    const updatedImages = images
+      .filter((_, i) => i !== index)
+      .map((img, idx) => ({
+        ...img,
+        order: idx + 1,
+      }));
+    onUpdateFormData({
+      images: updatedImages,
+    });
+  };
+
+  // Drag start
+  const handleDragStart = (index) => {
+    setDraggedIndex(index);
+  };
+
+  // Drag over
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  // Drop
+  const handleDrop = (dropIndex) => {
+    if (draggedIndex === null || draggedIndex === dropIndex) return;
+
+    const newImages = [...images];
+    const draggedImage = newImages[draggedIndex];
+
+    // Remover el elemento arrastra do
+    newImages.splice(draggedIndex, 1);
+    // Insertar en la nueva posición
+    newImages.splice(dropIndex, 0, draggedImage);
+
+    // Actualizar órdenes
+    const reorderedImages = newImages.map((img, idx) => ({
+      ...img,
+      order: idx + 1,
+    }));
+
+    onUpdateFormData({
+      images: reorderedImages,
+    });
+
+    setDraggedIndex(null);
   };
 
   return (
@@ -38,152 +180,290 @@ export default function EditImage() {
       <Box
         sx={{
           py: 2,
-          bgcolor: theme.palette.background.adminBackground,
-          display: "flex",
+          background: `linear-gradient(0deg, ${alpha(theme.palette.primary.background, 0.8)} 0%, ${alpha(theme.palette.primary.accent, 0.8)} 100%)`,
+          overflowY: "auto",
           minHeight: "calc(100vh - 190px)",
-
           height: "100%",
         }}
       >
-        <Container>
-          <Grid container spacing={4}>
-            <Grid
-              size={{
-                xs: 12,
-                sm: 6,
-                md: 4,
-              }}
-            >
-              {/* Imagen */}
-              <Box>
-                <Typography variant="subtitle2" fontWeight="600" mb={1}>
-                  Imagen Principal
-                </Typography>
-                {formData.gridImage && (
-                  <img
-                    src={formData.gridImage}
-                    alt={formData.title}
-                    style={{
-                      width: "100%",
-                      maxHeight: 300,
-                      objectFit: "cover",
-                      borderRadius: 8,
-                      marginBottom: 16,
-                    }}
+        <Container maxWidth="lg">
+          <Grid container spacing={3}>
+            {/* BLOQUE 1: IMAGEN DE GRID */}
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Box
+                bgcolor={alpha(theme.palette.background.adminBox, 0.5)}
+                p={4}
+                borderRadius={2}
+              >
+                <Stack spacing={2}>
+                  <TitleSection
+                    title="Imagen de Grid"
+                    subtitle="400x400 - Se muestra en la grilla de productos"
+                    icon={
+                      <FaImage size={24} color={theme.palette.primary.light} />
+                    }
+                    bgcolor={alpha(theme.palette.primary.main, 0.25)}
                   />
-                )}
-                <TextField
-                  fullWidth
-                  label="URL de Imagen"
-                  name="gridImage"
-                  value={formData.gridImage || ""}
-                  onChange={handleChange}
-                  size="small"
-                />
+
+                  {/* Preview de imagen */}
+                  {formData.gridImage?.preview || formData.gridImage?.url ? (
+                    <Box
+                      sx={{
+                        position: "relative",
+                        borderRadius: 2,
+                        overflow: "hidden",
+                        bgcolor: "#f5f5f5",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%",
+                        height: 300,
+                      }}
+                    >
+                      {isProcessingGrid && (
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            inset: 0,
+                            bgcolor: "rgba(0,0,0,0.5)",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            zIndex: 20,
+                          }}
+                        >
+                          <CircularProgress color="inherit" />
+                        </Box>
+                      )}
+                      <img
+                        src={
+                          formData.gridImage.preview || formData.gridImage.url
+                        }
+                        alt="Grid"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
+                      <IconButton
+                        onClick={handleDeleteGridImage}
+                        sx={{
+                          position: "absolute",
+                          top: 8,
+                          right: 8,
+                          bgcolor: "rgba(0,0,0,0.7)",
+                          color: "white",
+                          "&:hover": {
+                            bgcolor: "rgba(0,0,0,0.9)",
+                          },
+                        }}
+                        size="small"
+                      >
+                        <FaTrash size={14} />
+                      </IconButton>
+                    </Box>
+                  ) : (
+                    <Box
+                      sx={{
+                        p: 3,
+                        border: "2px dashed",
+                        borderColor: theme.palette.primary.main,
+                        borderRadius: 2,
+                        textAlign: "center",
+                        bgcolor: alpha(theme.palette.primary.main, 0.05),
+                        height: 300,
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <FaPlus size={32} color={theme.palette.primary.main} />
+                      <Typography variant="body2" color="textSecondary" mt={1}>
+                        Selecciona una imagen
+                      </Typography>
+                    </Box>
+                  )}
+
+                  {/* Upload button */}
+                  <Button
+                    variant="contained"
+                    component="label"
+                    fullWidth
+                    startIcon={<FaPlus />}
+                  >
+                    Subir Imagen de Grid
+                    <input
+                      hidden
+                      accept="image/*"
+                      type="file"
+                      onChange={handleGridImageUpload}
+                    />
+                  </Button>
+                </Stack>
               </Box>
             </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 8 }}>
-              <Divider />
 
-              {/* Precios */}
-              <Box>
-                <Typography variant="subtitle2" fontWeight="600" mb={2}>
-                  Precios
-                </Typography>
+            {/* BLOQUE 2: IMÁGENES DEL CARRUSEL */}
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Box
+                bgcolor={alpha(theme.palette.background.adminBox, 0.5)}
+                p={4}
+                borderRadius={2}
+              >
                 <Stack spacing={2}>
-                  <TextField
-                    fullWidth
-                    label="Precio"
-                    name="price"
-                    type="number"
-                    value={formData.price || ""}
-                    onChange={handleChange}
-                    size="small"
-                    inputProps={{ step: "0.01" }}
+                  <TitleSection
+                    title="Imágenes del Carrusel"
+                    subtitle="Máximo 20 imágenes para el detalle del producto"
+                    icon={
+                      <FaImages
+                        size={24}
+                        color={theme.palette.secondary.light}
+                      />
+                    }
+                    bgcolor={alpha(theme.palette.secondary.main, 0.25)}
                   />
-                  <TextField
+
+                  {images.length >= 20 && (
+                    <Alert severity="warning">
+                      Has alcanzado el límite máximo de 20 imágenes
+                    </Alert>
+                  )}
+
+                  {/* Grid de imágenes del carrusel */}
+                  <Grid container spacing={2}>
+                    {images.map((image, index) => (
+                      <Grid size={{ xs: 6, sm: 4 }} key={index}>
+                        <Box
+                          draggable
+                          onDragStart={() => handleDragStart(index)}
+                          onDragOver={handleDragOver}
+                          onDrop={() => handleDrop(index)}
+                          sx={{
+                            position: "relative",
+                            borderRadius: 1,
+                            overflow: "hidden",
+                            bgcolor: "#f5f5f5",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            aspectRatio: "1/1",
+                            cursor: "grab",
+                            "&:active": {
+                              cursor: "grabbing",
+                            },
+                            opacity: draggedIndex === index ? 0.5 : 1,
+                            transition: "opacity 0.2s ease",
+                            border:
+                              draggedIndex === index ? "2px dashed" : "none",
+                            borderColor: theme.palette.primary.main,
+                          }}
+                        >
+                          <img
+                            src={image.preview || image.url}
+                            alt={`Carrusel ${image.order}`}
+                            style={{
+                              position: "absolute",
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                              pointerEvents: "none",
+                            }}
+                          />
+
+                          {/* Drag handle icon */}
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              top: 4,
+                              left: 4,
+                              bgcolor: "rgba(0,0,0,0.7)",
+                              color: "white",
+                              borderRadius: "4px",
+                              p: 0.5,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              zIndex: 5,
+                            }}
+                          >
+                            <FaGripVertical size={12} />
+                          </Box>
+
+                          {/* Order badge */}
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              bottom: 4,
+                              left: 4,
+                              bgcolor: theme.palette.primary.main,
+                              color: "white",
+                              borderRadius: "50%",
+                              width: 32,
+                              height: 32,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              fontSize: "14px",
+                              fontWeight: "bold",
+                              zIndex: 5,
+                            }}
+                          >
+                            {image.order}
+                          </Box>
+
+                          {/* Delete button */}
+                          <IconButton
+                            onClick={() => handleDeleteCarouselImage(index)}
+                            sx={{
+                              position: "absolute",
+                              top: 4,
+                              right: 4,
+                              bgcolor: "rgba(255,0,0,0.7)",
+                              color: "white",
+                              "&:hover": {
+                                bgcolor: "rgba(255,0,0,0.9)",
+                              },
+                              zIndex: 10,
+                            }}
+                            size="small"
+                          >
+                            <FaTrash size={12} />
+                          </IconButton>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+
+                  {/* Upload button */}
+                  <Button
+                    variant="contained"
+                    component="label"
                     fullWidth
-                    label="Precio con Descuento"
-                    name="discountPrice"
-                    type="number"
-                    value={formData.discountPrice || ""}
-                    onChange={handleChange}
-                    size="small"
-                    inputProps={{ step: "0.01" }}
-                  />
-                  <TextField
-                    fullWidth
-                    label="Porcentaje de Descuento"
-                    name="discountPercentage"
-                    type="number"
-                    value={formData.discountPercentage || ""}
-                    onChange={handleChange}
-                    size="small"
-                    inputProps={{ step: "0.01" }}
-                  />
-                </Stack>
-              </Box>
-
-              <Divider />
-
-              {/* Stock e Inventario */}
-              <Box>
-                <Typography variant="subtitle2" fontWeight="600" mb={2}>
-                  Inventario
-                </Typography>
-                <Stack spacing={2}>
-                  <TextField
-                    fullWidth
-                    label="Stock"
-                    name="stock"
-                    type="number"
-                    value={formData.stock || ""}
-                    onChange={handleChange}
-                    size="small"
-                  />
-                </Stack>
-              </Box>
-
-              <Divider />
-
-              {/* Visibilidad */}
-              <Box>
-                <Typography variant="subtitle2" fontWeight="600" mb={2}>
-                  Configuración
-                </Typography>
-                <Stack spacing={2}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                    startIcon={<FaPlus />}
+                    disabled={images.length >= 20 || isProcessingCarousel}
+                  >
+                    {isProcessingCarousel
+                      ? "Procesando imágenes..."
+                      : "Agregar Imágenes al Carrusel"}
                     <input
-                      type="checkbox"
-                      name="visibility"
-                      checked={formData.visibility || false}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          visibility: e.target.checked,
-                        })
-                      }
+                      hidden
+                      accept="image/*"
+                      type="file"
+                      multiple
+                      onChange={handleCarouselImageUpload}
+                      disabled={images.length >= 20 || isProcessingCarousel}
                     />
-                    <Typography variant="body2">Visible en tienda</Typography>
-                  </Box>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                    <input
-                      type="checkbox"
-                      name="featured"
-                      checked={formData.featured || false}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          featured: e.target.checked,
-                        })
-                      }
-                    />
-                    <Typography variant="body2">Producto destacado</Typography>
-                  </Box>
+                  </Button>
+
+                  {images.length > 0 && (
+                    <Typography variant="caption" color="textSecondary">
+                      {images.length} / 20 imagen(es) agregada(s)
+                    </Typography>
+                  )}
                 </Stack>
               </Box>
-
-              <Divider />
             </Grid>
           </Grid>
         </Container>

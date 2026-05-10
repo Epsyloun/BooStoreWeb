@@ -11,6 +11,7 @@ import {
   useTheme,
   Snackbar,
   Alert,
+  alpha,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
@@ -71,35 +72,6 @@ export default function ViewOrEditProduct({ open, onClose, viewOrEditMode }) {
     severity: "success", // "success" | "error" | "warning" | "info"
   });
 
-  //mandar a traer la informacion interna del producto cada vez que se seleccione uno nuevo desde el contexto
-  // useEffect(() => {
-  //   const fetchProductoInterno = async () => {
-  //     if (selectedProduct && selectedProduct.id) {
-  //       try {
-  //         const result = await getProductoInternoByProductId(
-  //           selectedProduct.id,
-  //         );
-  //         if (result.success && result.data) {
-  //           setFormData((prevData) => ({
-  //             ...prevData,
-  //             ...result.data,
-  //           }));
-  //         } else {
-  //           console.warn("No se encontraron datos internos para este producto");
-  //         }
-  //       } catch (error) {
-  //         console.error("Error al obtener datos internos del producto:", error);
-  //       }
-  //     } else {
-  //       console.warn(
-  //         "No hay producto seleccionado para obtener datos internos",
-  //       );
-  //     }
-  //   };
-
-  //   fetchProductoInterno();
-  // }, [selectedProduct]);
-
   useEffect(() => {
     // Actualizar formData cuando cambia selectedProduct desde el contexto
     const initialData = JSON.parse(JSON.stringify(selectedProduct || {}));
@@ -115,6 +87,13 @@ export default function ViewOrEditProduct({ open, onClose, viewOrEditMode }) {
     setFormData({
       ...formData,
       [name]: value,
+    });
+  };
+
+  const handleUpdateFormData = (updates) => {
+    setFormData({
+      ...formData,
+      ...updates,
     });
   };
 
@@ -177,7 +156,7 @@ export default function ViewOrEditProduct({ open, onClose, viewOrEditMode }) {
         sx: {
           width: "100%",
           overflowX: "hidden",
-          bgcolor: theme.palette.background.adminBackground,
+          background: `linear-gradient(0deg, ${theme.palette.primary.background} 0%, ${theme.palette.primary.accent} 100%)`,
         },
       }}
     >
@@ -221,16 +200,15 @@ export default function ViewOrEditProduct({ open, onClose, viewOrEditMode }) {
       </Box>
       {value === 0 && (
         <Box role="tabpanel" sx={getAnimationDirection()}>
-          <GeneralInfo
-            formData={formData}
-            handleChange={handleChange}
-            setFormData={setFormData}
-          />
+          <GeneralInfo formData={formData} handleChange={handleChange} />
         </Box>
       )}
       {value === 1 && (
         <Box role="tabpanel" sx={getAnimationDirection()}>
-          <EditImage />
+          <EditImage
+            formData={formData}
+            onUpdateFormData={handleUpdateFormData}
+          />
         </Box>
       )}
       {value === 2 && (

@@ -4,11 +4,7 @@ import { TitleSection } from "../../components/product/generalInfo";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import AdminStyledTxt from "../../components/generic/AdminStyledTxt";
 
-export const InternalPricingInfo = ({
-  formData,
-  handleChange,
-  setFormData,
-}) => {
+export const InternalPricingInfo = ({ formData, handleChange }) => {
   const theme = useTheme();
 
   // Calcular el precio final como la suma de los 3 anteriores
@@ -21,11 +17,13 @@ export const InternalPricingInfo = ({
 
   // Guardar finalPrice en formData cuando cambie
   useEffect(() => {
-    if (setFormData && finalPrice !== formData.finalPrice) {
-      setFormData((prevData) => ({
-        ...prevData,
-        finalPrice: parseFloat(finalPrice),
-      }));
+    if (handleChange && finalPrice !== formData.finalPrice) {
+      handleChange({
+        target: {
+          name: "finalPrice",
+          value: parseFloat(finalPrice),
+        },
+      });
     }
   }, [finalPrice]);
   return (

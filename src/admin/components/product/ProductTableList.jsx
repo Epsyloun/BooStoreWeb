@@ -134,7 +134,7 @@ export default function ProductTableList({
                 >
                   <TableCell align="center">
                     <LazyImage
-                      src={row.gridImage}
+                      src={row.gridImage?.url || row.gridImage}
                       alt={row.title}
                       width={60}
                       height={60}

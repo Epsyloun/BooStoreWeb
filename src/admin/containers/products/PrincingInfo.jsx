@@ -17,11 +17,15 @@ import { FaArrowTrendUp } from "react-icons/fa6";
 import { FaPercentage } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
-export const PricingInfo = ({ formData, handleChange, setFormData }) => {
+export const PricingInfo = ({ formData, handleChange }) => {
   const theme = useTheme();
   const [showDiscount, setShowDiscount] = useState(
     parseFloat(formData.discountPrice) > 0,
   );
+
+  const updateField = (name, value) => {
+    handleChange({ target: { name, value } });
+  };
 
   // Manejar cambio del switch
   const handleDiscountToggle = (e) => {
@@ -30,11 +34,8 @@ export const PricingInfo = ({ formData, handleChange, setFormData }) => {
 
     // Si se apaga el descuento, limpiar el campo
     if (!isChecked) {
-      setFormData((prevData) => ({
-        ...prevData,
-        discountPrice: "",
-        discountPercentage: 0,
-      }));
+      updateField("discountPrice", "");
+      updateField("discountPercentage", 0);
     }
   };
 
@@ -44,11 +45,8 @@ export const PricingInfo = ({ formData, handleChange, setFormData }) => {
 
     // Si el valor es menor o igual a 0, limpiar
     if (discountValue <= 0) {
-      setFormData((prevData) => ({
-        ...prevData,
-        discountPrice: "",
-        discountPercentage: 0,
-      }));
+      updateField("discountPrice", "");
+      updateField("discountPercentage", 0);
       setShowDiscount(false);
     } else {
       // Si es válido, actualizar el switch
@@ -96,12 +94,12 @@ export const PricingInfo = ({ formData, handleChange, setFormData }) => {
         discountPercentage = ((price - discountPrice) / price) * 100;
       }
 
-      setFormData((prevData) => ({
-        ...prevData,
-        profit: parseFloat(profit.toFixed(2)),
-        profitMargin: parseFloat(profitMargin.toFixed(2)),
-        discountPercentage: parseFloat(discountPercentage.toFixed(2)),
-      }));
+      updateField("profit", parseFloat(profit.toFixed(2)));
+      updateField("profitMargin", parseFloat(profitMargin.toFixed(2)));
+      updateField(
+        "discountPercentage",
+        parseFloat(discountPercentage.toFixed(2)),
+      );
     }
   }, [
     formData.price,

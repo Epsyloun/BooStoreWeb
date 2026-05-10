@@ -136,7 +136,7 @@ export default function ProductCardView({
                 }}
               >
                 <LazyImage
-                  src={product.gridImage}
+                  src={product.gridImage?.url || product.gridImage}
                   alt={product.title}
                   width="100%"
                   height="100%"
