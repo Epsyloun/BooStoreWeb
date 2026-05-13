@@ -20,7 +20,7 @@ import DeleteConfirmationDialog from "../components/product/DeleteConfirmationDi
 import { useAuthContext } from "../context/useAuthContext";
 import ViewOrEditProduct from "../layout/ViewOrEditProduct";
 
-export default function AdminDashboard() {
+export default function AdminProducts() {
   const { selectedProduct, setSelectedProduct } = useAuthContext();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));

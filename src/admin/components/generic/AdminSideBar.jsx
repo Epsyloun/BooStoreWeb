@@ -14,8 +14,9 @@ import {
   AppBar,
   Toolbar,
   Typography,
+  Stack,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaBars, FaHome, FaUsers, FaBox, FaCog } from "react-icons/fa";
 
@@ -30,6 +31,33 @@ export default function AdminSideBar() {
 
   const [openDrawer, setOpenDrawer] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showAppBar, setShowAppBar] = useState(true);
+  const lastScrollY = useRef(0);
+
+  // Detectar scroll para mostrar/esconder AppBar
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const isScrollingUp = currentScrollY < lastScrollY.current;
+
+      // Mostrar si está en top o scrollea hacia arriba
+      // Esconder si scrollea hacia abajo (y se queda escondido)
+      const delta = Math.abs(currentScrollY - lastScrollY.current);
+
+      if (currentScrollY < 50) {
+        // Siempre mostrar en el top
+        setShowAppBar(true);
+      } else if (delta > 5) {
+        // Solo cambiar si el delta es significativo (evita flickering)
+        setShowAppBar(isScrollingUp);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const menuItems = [
     { label: "Inicio", path: "/admin/home", icon: <FaHome size={20} /> },
@@ -168,7 +196,7 @@ export default function AdminSideBar() {
 
       {/* Mobile: AppBar + Drawer */}
       {isMobile && (
-        <>
+        <Stack direction="column" alignItems="center">
           <AppBar
             size="small"
             position="fixed"
@@ -178,6 +206,8 @@ export default function AdminSideBar() {
               right: 0,
               zIndex: 1100,
               backgroundColor: theme.palette.primary.main,
+              transform: showAppBar ? "translateY(0)" : "translateY(-100%)",
+              transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
             }}
           >
             <Toolbar>
@@ -197,15 +227,11 @@ export default function AdminSideBar() {
               </Typography>
             </Toolbar>
           </AppBar>
-
           {/* Drawer que se abre desde el navbar */}
           <Drawer anchor="left" open={openDrawer} onClose={toggleDrawer(false)}>
             {menuContent}
           </Drawer>
-
-          {/* Espaciador para no superponer con el AppBar */}
-          <Box sx={{ height: "64px" }} />
-        </>
+        </Stack>
       )}
     </>
   );

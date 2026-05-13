@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { Box, useTheme, useMediaQuery } from "@mui/material";
+import { Box, useTheme, useMediaQuery, Toolbar } from "@mui/material";
 import AdminSideBar from "../admin/components/generic/AdminSideBar";
 import { useAuthContext } from "../admin/context/useAuthContext";
 
@@ -19,12 +19,14 @@ export default function AdminLayout() {
     <Box
       sx={{
         display: "flex",
+        flexDirection: "column",
         minHeight: "100vh",
       }}
     >
       {/* Sidebar */}
       <AdminSideBar />
-
+      {/* Espaciador para el AppBar en mobile */}
+      {isMobile ? <Toolbar /> : null}
       {/* Contenido principal */}
       <Box
         component="main"
