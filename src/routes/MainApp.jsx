@@ -13,7 +13,18 @@ export default function MainApp() {
     const fetchProducts = async () => {
       try {
         const data = await getProducts();
-        handleProducts(data);
+        // Filtrar solo productos no archivados y visibles
+        const cleanData = data
+          .filter(
+            (product) =>
+              product.archived !== true && product.visibility === true,
+          )
+          .map((product) => {
+            return {
+              ...product,
+            };
+          });
+        handleProducts(cleanData);
       } catch (error) {
         console.error("Error al obtener productos:", error);
       }
