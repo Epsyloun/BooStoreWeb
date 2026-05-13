@@ -9,8 +9,6 @@ import {
   Tabs,
   Typography,
   useTheme,
-  Snackbar,
-  Alert,
   alpha,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -48,7 +46,12 @@ const slideInFromLeft = {
   animation: "slideInLeft 0.3s ease-out",
 };
 
-export default function ViewOrEditProduct({ open, onClose, viewOrEditMode }) {
+export default function ViewOrEditProduct({
+  open,
+  onClose,
+  viewOrEditMode,
+  onNotification,
+}) {
   const [value, setValue] = useState(0);
   const [prevValue, setPrevValue] = useState(0);
   const theme = useTheme();
@@ -66,11 +69,6 @@ export default function ViewOrEditProduct({ open, onClose, viewOrEditMode }) {
     JSON.parse(JSON.stringify(selectedProduct || {})),
   );
   const [isSaving, setIsSaving] = useState(false);
-  const [notification, setNotification] = useState({
-    open: false,
-    message: "",
-    severity: "success", // "success" | "error" | "warning" | "info"
-  });
 
   useEffect(() => {
     // Actualizar formData cuando cambia selectedProduct desde el contexto
@@ -108,43 +106,31 @@ export default function ViewOrEditProduct({ open, onClose, viewOrEditMode }) {
         // Actualizar el contexto con los cambios
         setSelectedProduct(JSON.parse(JSON.stringify(formData)));
 
-        // Mostrar mensaje de éxito
-        setNotification({
-          open: true,
-          message: result.message,
-          severity: "success",
-        });
+        // Llamar al callback para mostrar notificación en la página padre
+        if (onNotification) {
+          onNotification(result.message, "success");
+        }
 
-        // Cerrar el modal después de 2 segundos
-        //setTimeout(() => {
+        // Cerrar el modal inmediatamente
         onClose();
-        //}, 2000);
-
-        //console.log("Cambios guardados:", formData);
       } else {
-        // Mostrar mensaje de error
-        setNotification({
-          open: true,
-          message: result.message || "Error al guardar el producto",
-          severity: "error",
-        });
+        // Mostrar mensaje de error en la notificación de la página padre
+        if (onNotification) {
+          onNotification(
+            result.message || "Error al guardar el producto",
+            "error",
+          );
+        }
         console.error("Error al guardar:", result.error);
       }
     } catch (error) {
       console.error("Error:", error);
-      setNotification({
-        open: true,
-        message: error.message || "Error inesperado al guardar",
-        severity: "error",
-      });
+      if (onNotification) {
+        onNotification(error.message || "Error inesperado al guardar", "error");
+      }
     } finally {
       setIsSaving(false);
     }
-  };
-
-  const handleCloseNotification = (event, reason) => {
-    if (reason === "clickaway") return;
-    setNotification({ ...notification, open: false });
   };
 
   return (
@@ -221,22 +207,6 @@ export default function ViewOrEditProduct({ open, onClose, viewOrEditMode }) {
         handleSave={handleSave}
         isSaving={isSaving}
       />
-
-      {/* Snackbar para notificaciones */}
-      <Snackbar
-        open={notification.open}
-        autoHideDuration={6000}
-        onClose={handleCloseNotification}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-      >
-        <Alert
-          onClose={handleCloseNotification}
-          severity={notification.severity}
-          sx={{ width: "100%" }}
-        >
-          {notification.message}
-        </Alert>
-      </Snackbar>
     </Drawer>
   );
 }

@@ -157,6 +157,14 @@ export default function AdminProducts() {
     //console.log("Editar:", product);
   };
 
+  const handleNotification = (message, severity = "success") => {
+    setSnackbar({
+      open: true,
+      message,
+      severity,
+    });
+  };
+
   const handleDelete = (product) => {
     setProductToDelete(product);
     setDeleteDialogOpen(true);
@@ -280,6 +288,7 @@ export default function AdminProducts() {
           setSelectedProduct(null);
         }}
         viewOrEditMode={viewOrEditMode}
+        onNotification={handleNotification}
       />
 
       {/* Diálogo de confirmación para eliminar */}

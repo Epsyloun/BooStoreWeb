@@ -157,6 +157,8 @@ export const saveOrUpdateProduct = async (formData) => {
       finalPrice: parseFloat(formData.finalPrice) || 0,
       createdAt: formData.createdAt || new Date(),
       updatedAt: new Date(),
+      lotName: formData.lotName || "",
+      archived: formData.archived || false,
     };
 
     let productId = formData.id;

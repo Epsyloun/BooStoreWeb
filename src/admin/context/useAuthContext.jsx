@@ -36,6 +36,7 @@ const privateProductState = {
   shippingPrice: 0,
   taxesPrice: 0,
   finalPrice: 0,
+  lotName: "",
   archived: false,
 };
 

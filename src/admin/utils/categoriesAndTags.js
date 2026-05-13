@@ -41,3 +41,15 @@ export const tags = [
     title: "Mayor precio",
   },
 ];
+
+export const lots = [
+  { id: 0, title: "Lote 1 - 2024" },
+  {
+    id: 1,
+    title: "Lote 2 - 2025",
+  },
+  {
+    id: 2,
+    title: "Lote 3 - 2026",
+  },
+];
