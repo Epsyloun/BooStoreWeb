@@ -206,7 +206,10 @@ export default function EditImage({ formData, onUpdateFormData }) {
                   />
 
                   {/* Preview de imagen */}
-                  {formData.gridImage?.preview || formData.gridImage?.url ? (
+                  {formData.gridImage?.preview ||
+                  formData.gridImage?.url ||
+                  (typeof formData.gridImage === "string" &&
+                    formData.gridImage) ? (
                     <Box
                       sx={{
                         position: "relative",
@@ -237,7 +240,9 @@ export default function EditImage({ formData, onUpdateFormData }) {
                       )}
                       <img
                         src={
-                          formData.gridImage.preview || formData.gridImage.url
+                          formData.gridImage?.preview ||
+                          formData.gridImage?.url ||
+                          formData.gridImage
                         }
                         alt="Grid"
                         style={{

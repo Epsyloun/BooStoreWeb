@@ -27,7 +27,7 @@ const columns = [
   { id: "image", label: "Imagen", minWidth: 100, align: "center" },
   { id: "name", label: "Nombre", minWidth: 200 },
   { id: "price", label: "Precio", minWidth: 120, align: "right" },
-  { id: "discount", label: "Oferta", minWidth: 120, align: "right" },
+  { id: "popularity", label: "Popularidad", minWidth: 120, align: "center" },
   { id: "stock", label: "Stock", minWidth: 100, align: "center" },
   { id: "visibility", label: "Estado", minWidth: 110, align: "center" },
   { id: "actions", label: "Acciones", minWidth: 150, align: "center" },
@@ -39,8 +39,9 @@ export default function ProductTableList({
   error = null,
   onRetry = () => {},
   setSelectedProduct = () => {},
-  setDrawerOpen = () => {},
   setViewOrEditMode = () => {},
+  onEdit = () => {},
+  onDelete = () => {},
 }) {
   const theme = useTheme();
   const [page, setPage] = useState(0);
@@ -74,26 +75,29 @@ export default function ProductTableList({
     setPage(0);
   };
 
-  const handleEdit = (product) => {
-    setSelectedProduct(product);
-    setDrawerOpen(true);
-    setViewOrEditMode;
-    //console.log("Editar:", product);
-  };
-
   const handleDelete = (product) => {
-    //console.log("Eliminar:", product);
+    onDelete(product);
   };
 
   const handleView = (product) => {
     //console.log("Ver:", product);
   };
 
+  // Ordenar productos: primero activos, luego alfabéticamente
+  const sortedProducts = [...products].sort((a, b) => {
+    // Primero por visibilidad (activos primero)
+    if (a.visibility !== b.visibility) {
+      return a.visibility ? -1 : 1;
+    }
+    // Luego alfabéticamente por título
+    return (a.title || "").localeCompare(b.title || "");
+  });
+
   return (
     <Paper sx={{ width: "100%", overflow: "hidden", borderRadius: 2 }}>
       <TableContainer
         sx={{
-          maxHeight: "80svh",
+          maxHeight: "70svh",
         }}
       >
         <Table stickyHeader aria-label="tabla de productos">
@@ -116,7 +120,7 @@ export default function ProductTableList({
             </TableRow>
           </TableHead>
           <TableBody>
-            {products
+            {sortedProducts
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <TableRow
@@ -124,7 +128,7 @@ export default function ProductTableList({
                   role="checkbox"
                   tabIndex={-1}
                   key={row.id}
-                  onClick={() => handleEdit(row)}
+                  onClick={() => onEdit(row)}
                   sx={{
                     cursor: "pointer",
                     "&:hover": {
@@ -157,27 +161,56 @@ export default function ProductTableList({
                   <TableCell
                     align="right"
                     sx={{
-                      textDecoration: row.discountPrice
-                        ? "line-through"
-                        : "none",
-                      color: row.discountPrice
-                        ? theme.palette.text.disabled
-                        : theme.palette.text.primary,
+                      fontWeight: "bold",
                     }}
                   >
-                    ${row.price.toFixed(2)}
+                    <Stack spacing={0.5}>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          textDecoration: row.discountPrice
+                            ? "line-through"
+                            : "none",
+                          color: row.discountPrice
+                            ? theme.palette.text.disabled
+                            : theme.palette.text.primary,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        ${row.price.toFixed(2)}
+                      </Typography>
+                      {row.discountPrice && (
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            color: theme.palette.secondary.main,
+                            fontWeight: "bold",
+                          }}
+                        >
+                          ${row.discountPrice.toFixed(2)}
+                        </Typography>
+                      )}
+                    </Stack>
                   </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{
-                      color: row.discountPrice
-                        ? theme.palette.white.main
-                        : theme.palette.text.disabled,
-                    }}
-                  >
-                    {row.discountPrice
-                      ? `${row.discountPrice.toFixed(2)}`
-                      : "N/A"}
+                  <TableCell align="center">
+                    <Chip
+                      label={
+                        row.popularity === "high"
+                          ? "Alta"
+                          : row.popularity === "medium"
+                            ? "Media"
+                            : "Baja"
+                      }
+                      size="small"
+                      color={
+                        row.popularity === "high"
+                          ? "success"
+                          : row.popularity === "medium"
+                            ? "warning"
+                            : "error"
+                      }
+                      variant="outlined"
+                    />
                   </TableCell>
                   <TableCell align="center">
                     <StockProgressBar
@@ -224,7 +257,10 @@ export default function ProductTableList({
                     >
                       <IconButton
                         size="small"
-                        onClick={() => handleView(row)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleView(row);
+                        }}
                         title="Ver"
                         sx={{
                           color: theme.palette.primary.light,
@@ -234,7 +270,10 @@ export default function ProductTableList({
                       </IconButton>
                       <IconButton
                         size="small"
-                        onClick={() => handleEdit(row)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEdit(row);
+                        }}
                         title="Editar"
                         sx={{
                           color: theme.palette.primary.light,
@@ -244,7 +283,10 @@ export default function ProductTableList({
                       </IconButton>
                       <IconButton
                         size="small"
-                        onClick={() => handleDelete(row)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(row);
+                        }}
                         title="Eliminar"
                         sx={{
                           color: theme.palette.primary.light,

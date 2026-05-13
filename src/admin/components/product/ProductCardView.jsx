@@ -25,8 +25,9 @@ export default function ProductCardView({
   error = null,
   onRetry = () => {},
   setSelectedProduct = () => {},
-  setDrawerOpen = () => {},
   setViewOrEditMode = () => {},
+  onEdit = () => {},
+  onDelete = () => {},
 }) {
   const theme = useTheme();
   const [page, setPage] = useState(1);
@@ -58,13 +59,8 @@ export default function ProductCardView({
     startIndex + itemsPerPage,
   );
 
-  const handleEdit = (product) => {
-    setSelectedProduct(product);
-    setDrawerOpen(true);
-  };
-
   const handleDelete = (product) => {
-    //console.log("Eliminar:", product);
+    onDelete(product);
   };
 
   const handleView = (product) => {
@@ -157,8 +153,8 @@ export default function ProductCardView({
                       position: "absolute",
                       top: 8,
                       right: 8,
-                      backgroundColor: theme.palette.error.main,
-                      color: "#fff",
+                      backgroundColor: theme.palette.background.adminBackground,
+                      color: theme.palette.primary.contrastText,
                       fontWeight: "bold",
                     }}
                   />
@@ -213,7 +209,7 @@ export default function ProductCardView({
             >
               {/* Nombre y SKU */}
               <Typography
-                variant="body1"
+                variant="h6"
                 sx={{
                   fontWeight: 600,
                   mb: 0.5,
@@ -279,9 +275,6 @@ export default function ProductCardView({
 
                 {/* Stock */}
                 <Box>
-                  <Typography variant="caption" color="text.secondary">
-                    Stock
-                  </Typography>
                   <StockProgressBar
                     stock={product.stock || 0}
                     initialStock={product.initialStock || 0}
@@ -290,54 +283,85 @@ export default function ProductCardView({
                 </Box>
 
                 {/* Acciones */}
-                <Stack direction="row" spacing={1} justifyContent="center">
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  justifyContent="center"
+                  sx={{ width: "100%" }}
+                >
+                  {/* Botón de ver */}
                   <IconButton
-                    size="small"
-                    onClick={() => handleView(product)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleView(product);
+                    }}
                     title="Ver"
                     sx={{
+                      flex: 1,
+                      py: 1,
                       color: theme.palette.primary.light,
-                      border: `1px solid ${alpha(theme.palette.primary.main, 0.5)}`,
+                      border: `2px solid ${alpha(theme.palette.primary.main, 0.6)}`,
                       borderRadius: 1,
                       transition: "all 0.3s ease",
                       "&:hover": {
-                        border: `1px solid ${alpha(theme.palette.primary.main, 1)}`,
+                        backgroundColor: alpha(
+                          theme.palette.primary.main,
+                          0.08,
+                        ),
+                        border: `2px solid ${theme.palette.primary.main}`,
+                        transform: "scale(1.05)",
                       },
                     }}
                   >
-                    <FaEye size={14} />
+                    <FaEye size={16} />
                   </IconButton>
+                  {/* Botón de editar */}
                   <IconButton
-                    size="small"
-                    onClick={() => handleEdit(product)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onEdit(product);
+                    }}
                     title="Editar"
                     sx={{
-                      color: theme.palette.primary.light,
-                      border: `1px solid ${alpha(theme.palette.primary.main, 0.5)}`,
+                      flex: 1.8,
+                      py: 1,
+                      color: theme.palette.primary.contrastText,
+                      backgroundColor: theme.palette.primary.main,
+                      border: `2px solid ${theme.palette.primary.main}`,
                       borderRadius: 1,
                       transition: "all 0.3s ease",
                       "&:hover": {
-                        border: `1px solid ${alpha(theme.palette.primary.main, 1)}`,
+                        backgroundColor: theme.palette.primary.dark,
+                        border: `2px solid ${theme.palette.primary.dark}`,
+                        transform: "scale(1.08)",
+                        boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.4)}`,
                       },
                     }}
                   >
-                    <FaEdit size={14} />
+                    <FaEdit size={18} />
                   </IconButton>
+                  {/* Botón de eliminar */}
                   <IconButton
-                    size="small"
-                    onClick={() => handleDelete(product)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(product);
+                    }}
                     title="Eliminar"
                     sx={{
-                      color: theme.palette.primary.light,
-                      border: `1px solid ${alpha(theme.palette.primary.main, 0.5)}`,
+                      flex: 1,
+                      py: 1,
+                      color: theme.palette.error.light,
+                      border: `2px solid ${alpha(theme.palette.error.main, 0.6)}`,
                       borderRadius: 1,
                       transition: "all 0.3s ease",
                       "&:hover": {
-                        border: `1px solid ${alpha(theme.palette.primary.main, 1)}`,
+                        backgroundColor: alpha(theme.palette.error.main, 0.08),
+                        border: `2px solid ${theme.palette.error.main}`,
+                        transform: "scale(1.05)",
                       },
                     }}
                   >
-                    <FaTrash size={14} />
+                    <FaTrash size={16} />
                   </IconButton>
                 </Stack>
               </Stack>

@@ -11,6 +11,9 @@ import {
   ListItemIcon,
   Tooltip,
   alpha,
+  AppBar,
+  Toolbar,
+  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -163,29 +166,45 @@ export default function AdminSideBar() {
         </Box>
       )}
 
-      {/* Mobile: Hamburguesa + Drawer */}
+      {/* Mobile: AppBar + Drawer */}
       {isMobile && (
         <>
-          <IconButton
-            onClick={toggleDrawer(true)}
+          <AppBar
+            size="small"
+            position="fixed"
             sx={{
-              position: "fixed",
-              top: 16,
-              left: 16,
-              zIndex: 1200,
+              top: 0,
+              left: 0,
+              right: 0,
+              zIndex: 1100,
               backgroundColor: theme.palette.primary.main,
-              color: theme.palette.primary.contrastText,
-              "&:hover": {
-                backgroundColor: theme.palette.primary.dark,
-              },
             }}
           >
-            <FaBars size={20} />
-          </IconButton>
+            <Toolbar>
+              <IconButton
+                onClick={toggleDrawer(true)}
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{
+                  mr: 2,
+                }}
+              >
+                <FaBars size={20} />
+              </IconButton>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                Administración
+              </Typography>
+            </Toolbar>
+          </AppBar>
 
+          {/* Drawer que se abre desde el navbar */}
           <Drawer anchor="left" open={openDrawer} onClose={toggleDrawer(false)}>
             {menuContent}
           </Drawer>
+
+          {/* Espaciador para no superponer con el AppBar */}
+          <Box sx={{ height: "64px" }} />
         </>
       )}
     </>

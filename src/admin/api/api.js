@@ -259,6 +259,29 @@ export const getProductoInternoByProductId = async (productId) => {
   }
 };
 
+// Archivar producto (soft delete - pone archived en true)
+export const archiveProduct = async (productId) => {
+  try {
+    const productRef = doc(db, "productos", productId);
+    await updateDoc(productRef, {
+      archived: true,
+      updatedAt: new Date(),
+    });
+
+    return {
+      success: true,
+      message: "Producto archivado correctamente",
+    };
+  } catch (error) {
+    console.error("Error al archivar producto:", error);
+    return {
+      success: false,
+      error: error.message,
+      message: "Error al archivar el producto",
+    };
+  }
+};
+
 //helpers
 const uploadImageToStorage = async ({ file, path }) => {
   try {

@@ -1,4 +1,4 @@
-import { Box, LinearProgress, Typography } from "@mui/material";
+import { Box, LinearProgress, Stack, Typography } from "@mui/material";
 
 // Componente para mostrar stock como LinearProgress
 export const StockProgressBar = ({ stock = 0, initialStock = 0, theme }) => {
@@ -18,17 +18,29 @@ export const StockProgressBar = ({ stock = 0, initialStock = 0, theme }) => {
         gap: 0.5,
       }}
     >
-      <Typography
-        variant="body2"
-        sx={{
-          textAlign: "right",
-          fontWeight: "bold",
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Typography
+          variant="body2"
+          sx={{
+            textAlign: "left",
 
-          color: theme.palette.text.primary,
-        }}
-      >
-        {stock} / {initialStock}
-      </Typography>
+            color: theme.palette.text.secondary,
+          }}
+        >
+          Stock:
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            textAlign: "right",
+            fontWeight: "bold",
+
+            color: theme.palette.text.primary,
+          }}
+        >
+          {stock} / {initialStock}
+        </Typography>
+      </Stack>
       <LinearProgress
         variant="determinate"
         value={Math.min(percentage, 100)}

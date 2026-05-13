@@ -8,7 +8,6 @@ export default function SearchProductBar({ searchTerm, onSearchChange }) {
   return (
     <Box
       sx={{
-        mb: 3,
         display: "flex",
         gap: 2,
       }}

@@ -116,9 +116,9 @@ export default function ViewOrEditProduct({ open, onClose, viewOrEditMode }) {
         });
 
         // Cerrar el modal después de 2 segundos
-        setTimeout(() => {
-          onClose();
-        }, 2000);
+        //setTimeout(() => {
+        onClose();
+        //}, 2000);
 
         //console.log("Cambios guardados:", formData);
       } else {
