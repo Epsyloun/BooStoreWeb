@@ -16,7 +16,7 @@ import {
   Stack,
   LinearProgress,
 } from "@mui/material";
-import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
+import { FaEdit, FaTrash, FaEye, FaRedoAlt } from "react-icons/fa";
 
 import LazyImage from "../generic/LazyImage";
 import ProductTableError from "./ProductTableError";
@@ -42,6 +42,7 @@ export default function ProductTableList({
   setViewOrEditMode = () => {},
   onEdit = () => {},
   onDelete = () => {},
+  isArchived = false,
 }) {
   const theme = useTheme();
   const [page, setPage] = useState(0);
@@ -255,45 +256,63 @@ export default function ProductTableList({
                     <Box
                       sx={{ display: "flex", gap: 1, justifyContent: "center" }}
                     >
-                      <IconButton
-                        size="small"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleView(row);
-                        }}
-                        title="Ver"
-                        sx={{
-                          color: theme.palette.primary.light,
-                        }}
-                      >
-                        <FaEye size={16} />
-                      </IconButton>
-                      <IconButton
-                        size="small"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onEdit(row);
-                        }}
-                        title="Editar"
-                        sx={{
-                          color: theme.palette.primary.light,
-                        }}
-                      >
-                        <FaEdit size={16} />
-                      </IconButton>
-                      <IconButton
-                        size="small"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDelete(row);
-                        }}
-                        title="Eliminar"
-                        sx={{
-                          color: theme.palette.primary.light,
-                        }}
-                      >
-                        <FaTrash size={16} />
-                      </IconButton>
+                      {isArchived ? (
+                        <IconButton
+                          size="small"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete(row);
+                          }}
+                          title="Reactivar"
+                          sx={{
+                            color: theme.palette.success.main,
+                          }}
+                        >
+                          <FaRedoAlt size={16} />
+                        </IconButton>
+                      ) : (
+                        <>
+                          <IconButton
+                            size="small"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleView(row);
+                            }}
+                            title="Ver"
+                            sx={{
+                              color: theme.palette.primary.light,
+                            }}
+                          >
+                            <FaEye size={16} />
+                          </IconButton>
+                          <IconButton
+                            size="small"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onEdit(row);
+                            }}
+                            title="Editar"
+                            sx={{
+                              color: theme.palette.primary.light,
+                            }}
+                          >
+                            <FaEdit size={16} />
+                          </IconButton>
+                          <IconButton
+                            size="small"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDelete(row);
+                            }}
+                            title="Eliminar"
+                            sx={{
+                              color: theme.palette.primary.light,
+                            }}
+                          >
+                            <FaTrash size={16} />
+                          </IconButton>
+                        </>
+                      )}
                     </Box>
                   </TableCell>
                 </TableRow>

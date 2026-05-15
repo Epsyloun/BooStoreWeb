@@ -18,7 +18,14 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { FaBars, FaHome, FaUsers, FaBox, FaCog } from "react-icons/fa";
+import {
+  FaBars,
+  FaHome,
+  FaUsers,
+  FaBox,
+  FaCog,
+  FaArchive,
+} from "react-icons/fa";
 
 const SIDEBAR_WIDTH_COLLAPSED = "60px";
 const SIDEBAR_WIDTH_EXPANDED = "250px";
@@ -63,6 +70,11 @@ export default function AdminSideBar() {
     { label: "Inicio", path: "/admin/home", icon: <FaHome size={20} /> },
     { label: "Usuarios", path: "/admin/users", icon: <FaUsers size={20} /> },
     { label: "Productos", path: "/admin/products", icon: <FaBox size={20} /> },
+    {
+      label: "Archivados",
+      path: "/admin/archived-products",
+      icon: <FaArchive size={20} />,
+    },
     {
       label: "Configuraciones",
       path: "/admin/settings",

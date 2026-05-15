@@ -13,7 +13,7 @@ import {
   Chip,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
-import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
+import { FaEdit, FaTrash, FaEye, FaRedoAlt } from "react-icons/fa";
 import LazyImage from "../generic/LazyImage";
 import ProductTableError from "./ProductTableError";
 import ProductTableSkeleton from "./ProductTableSkeleton";
@@ -28,6 +28,7 @@ export default function ProductCardView({
   setViewOrEditMode = () => {},
   onEdit = () => {},
   onDelete = () => {},
+  isArchived = false,
 }) {
   const theme = useTheme();
   const [page, setPage] = useState(1);
@@ -289,80 +290,112 @@ export default function ProductCardView({
                   justifyContent="center"
                   sx={{ width: "100%" }}
                 >
-                  {/* Botón de ver */}
-                  <IconButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleView(product);
-                    }}
-                    title="Ver"
-                    sx={{
-                      flex: 1,
-                      py: 1,
-                      color: theme.palette.primary.light,
-                      border: `2px solid ${alpha(theme.palette.primary.main, 0.6)}`,
-                      borderRadius: 1,
-                      transition: "all 0.3s ease",
-                      "&:hover": {
-                        backgroundColor: alpha(
-                          theme.palette.primary.main,
-                          0.08,
-                        ),
-                        border: `2px solid ${theme.palette.primary.main}`,
-                        transform: "scale(1.05)",
-                      },
-                    }}
-                  >
-                    <FaEye size={16} />
-                  </IconButton>
-                  {/* Botón de editar */}
-                  <IconButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onEdit(product);
-                    }}
-                    title="Editar"
-                    sx={{
-                      flex: 1.8,
-                      py: 1,
-                      color: theme.palette.primary.contrastText,
-                      backgroundColor: theme.palette.primary.main,
-                      border: `2px solid ${theme.palette.primary.main}`,
-                      borderRadius: 1,
-                      transition: "all 0.3s ease",
-                      "&:hover": {
-                        backgroundColor: theme.palette.primary.dark,
-                        border: `2px solid ${theme.palette.primary.dark}`,
-                        transform: "scale(1.08)",
-                        boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.4)}`,
-                      },
-                    }}
-                  >
-                    <FaEdit size={18} />
-                  </IconButton>
-                  {/* Botón de eliminar */}
-                  <IconButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(product);
-                    }}
-                    title="Eliminar"
-                    sx={{
-                      flex: 1,
-                      py: 1,
-                      color: theme.palette.error.light,
-                      border: `2px solid ${alpha(theme.palette.error.main, 0.6)}`,
-                      borderRadius: 1,
-                      transition: "all 0.3s ease",
-                      "&:hover": {
-                        backgroundColor: alpha(theme.palette.error.main, 0.08),
-                        border: `2px solid ${theme.palette.error.main}`,
-                        transform: "scale(1.05)",
-                      },
-                    }}
-                  >
-                    <FaTrash size={16} />
-                  </IconButton>
+                  {isArchived ? (
+                    <IconButton
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(product);
+                      }}
+                      title="Reactivar"
+                      sx={{
+                        flex: 1,
+                        py: 1,
+                        color: theme.palette.primary.contrastText,
+                        backgroundColor: theme.palette.success.main,
+                        border: `2px solid ${theme.palette.success.main}`,
+                        borderRadius: 1,
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          backgroundColor: theme.palette.success.dark,
+                          border: `2px solid ${theme.palette.success.dark}`,
+                          transform: "scale(1.08)",
+                          boxShadow: `0 4px 12px ${alpha(theme.palette.success.main, 0.4)}`,
+                        },
+                      }}
+                    >
+                      <FaRedoAlt size={18} />
+                    </IconButton>
+                  ) : (
+                    <>
+                      {/* Botón de ver */}
+                      <IconButton
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleView(product);
+                        }}
+                        title="Ver"
+                        sx={{
+                          flex: 1,
+                          py: 1,
+                          color: theme.palette.primary.light,
+                          border: `2px solid ${alpha(theme.palette.primary.main, 0.6)}`,
+                          borderRadius: 1,
+                          transition: "all 0.3s ease",
+                          "&:hover": {
+                            backgroundColor: alpha(
+                              theme.palette.primary.main,
+                              0.08,
+                            ),
+                            border: `2px solid ${theme.palette.primary.main}`,
+                            transform: "scale(1.05)",
+                          },
+                        }}
+                      >
+                        <FaEye size={16} />
+                      </IconButton>
+                      {/* Botón de editar */}
+                      <IconButton
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEdit(product);
+                        }}
+                        title="Editar"
+                        sx={{
+                          flex: 1.8,
+                          py: 1,
+                          color: theme.palette.primary.contrastText,
+                          backgroundColor: theme.palette.primary.main,
+                          border: `2px solid ${theme.palette.primary.main}`,
+                          borderRadius: 1,
+                          transition: "all 0.3s ease",
+                          "&:hover": {
+                            backgroundColor: theme.palette.primary.dark,
+                            border: `2px solid ${theme.palette.primary.dark}`,
+                            transform: "scale(1.08)",
+                            boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.4)}`,
+                          },
+                        }}
+                      >
+                        <FaEdit size={18} />
+                      </IconButton>
+                      {/* Botón de eliminar */}
+                      <IconButton
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(product);
+                        }}
+                        title="Eliminar"
+                        sx={{
+                          flex: 1,
+                          py: 1,
+                          color: theme.palette.error.light,
+                          border: `2px solid ${alpha(theme.palette.error.main, 0.6)}`,
+                          borderRadius: 1,
+                          transition: "all 0.3s ease",
+                          "&:hover": {
+                            backgroundColor: alpha(
+                              theme.palette.error.main,
+                              0.08,
+                            ),
+                            border: `2px solid ${theme.palette.error.main}`,
+                            transform: "scale(1.05)",
+                          },
+                        }}
+                      >
+                        <FaTrash size={16} />
+                      </IconButton>
+                    </>
+                  )}
                 </Stack>
               </Stack>
             </CardContent>

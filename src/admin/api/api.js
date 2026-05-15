@@ -284,6 +284,29 @@ export const archiveProduct = async (productId) => {
   }
 };
 
+// Devolver producto archivado (pone archived en false)
+export const unarchiveProduct = async (productId) => {
+  try {
+    const productRef = doc(db, "productos", productId);
+    await updateDoc(productRef, {
+      archived: false,
+      updatedAt: new Date(),
+    });
+
+    return {
+      success: true,
+      message: "Producto devuelto correctamente",
+    };
+  } catch (error) {
+    console.error("Error al devolver producto:", error);
+    return {
+      success: false,
+      error: error.message,
+      message: "Error al devolver el producto",
+    };
+  }
+};
+
 //helpers
 const uploadImageToStorage = async ({ file, path }) => {
   try {

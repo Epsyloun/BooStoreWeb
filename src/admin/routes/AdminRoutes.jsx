@@ -8,6 +8,7 @@ import AdminUsers from "../pages/AdminUsers";
 import AdminProducts from "../pages/AdminProducts";
 import AdminSettings from "../pages/AdminSettings";
 import AdminLogin from "../pages/AdminLogin";
+import AdminArchivedProducts from "../pages/AdminArchivedProducts";
 
 /**
  * Componente que define todas las rutas del panel de admin
@@ -53,6 +54,16 @@ export default function AdminRoutes() {
             element={
               <ProtectedRoutes>
                 <AdminProducts />
+              </ProtectedRoutes>
+            }
+          />
+
+          {/* Productos archivados - PROTEGIDA */}
+          <Route
+            path="/archived-products"
+            element={
+              <ProtectedRoutes>
+                <AdminArchivedProducts />
               </ProtectedRoutes>
             }
           />
