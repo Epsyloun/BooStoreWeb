@@ -89,7 +89,7 @@ export default function AdminSideBar() {
     },
     {
       label: "Regresar",
-      path: "/store",
+      path: "/",
       icon: <FaPowerOff size={20} />,
     },
   ];
