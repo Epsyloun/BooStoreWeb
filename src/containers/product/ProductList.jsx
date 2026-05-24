@@ -19,14 +19,10 @@ export const ProductList = memo(({ productList }) => {
     });
   }, [page]);
 
-  const sortedProducts = [...productList].sort(
-    (a, b) => a.productId - b.productId,
-  );
-
   const startIndex = (page - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
-  const currentProducts = sortedProducts.slice(startIndex, endIndex);
+  const currentProducts = productList.slice(startIndex, endIndex);
 
   return (
     <>

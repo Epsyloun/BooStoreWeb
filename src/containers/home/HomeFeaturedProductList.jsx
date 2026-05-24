@@ -8,7 +8,6 @@ import HomeSkeletonList from "./HomeSkeletonList";
 export default function HomeFeaturedProductList() {
   const { products, loading } = useBooContext();
   const homeProducts = products.filter((product) => product.featured);
-  const sortedProducts = homeProducts.sort((a, b) => a.productId - b.productId);
 
   return (
     <Container sx={{ my: 2 }}>
@@ -18,7 +17,7 @@ export default function HomeFeaturedProductList() {
         <HomeSkeletonList />
       ) : (
         <Grid container spacing={2} justifyContent={"center"}>
-          {sortedProducts.map((product) => (
+          {homeProducts.map((product) => (
             <Grid key={product.id} size={{ xs: 6, sm: 6, md: 4, lg: 3 }}>
               <ProductElement
                 productInfo={product}

@@ -24,7 +24,17 @@ export default function MainApp() {
               ...product,
             };
           });
-        handleProducts(cleanData);
+
+        //ordenar productos por popularidad: high > medium > low siempre
+        const finalList = cleanData.sort((a, b) => {
+          const popularityOrder = { high: 1, medium: 2, low: 3 };
+          return (
+            (popularityOrder[a.popularity] || 4) -
+            (popularityOrder[b.popularity] || 4)
+          );
+        });
+        console.log("Productos ordenados por popularidad:", finalList);
+        handleProducts(finalList);
       } catch (error) {
         console.error("Error al obtener productos:", error);
       }

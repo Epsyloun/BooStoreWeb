@@ -38,7 +38,6 @@ export default function Products() {
     category: categoryParam || 0,
     orderBy: tagParam || 0,
   });
-  console.log("Product list:", products);
 
   // Actualizar URL cuando cambian los filtros
   useEffect(() => {
@@ -50,12 +49,7 @@ export default function Products() {
     navigate(`/products?${params.toString()}`, { replace: true });
   }, [filters, navigate]);
 
-  const filteredProductList = useMemo(
-    () => products.filter((product) => product.visibility),
-    [products],
-  );
-
-  const [filteredList, setFilteredList] = useState(filteredProductList);
+  const [filteredList, setFilteredList] = useState(products);
 
   return (
     <div>
@@ -95,7 +89,7 @@ export default function Products() {
               <ProductSearchBar
                 filters={filters}
                 setFilters={setFilters}
-                originalProducts={filteredProductList}
+                originalProducts={products}
                 setFilteredList={setFilteredList}
               />
               <ProductList productList={filteredList} />
