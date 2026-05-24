@@ -125,68 +125,6 @@ export default function AdminSideBar() {
         transition: "width 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
       }}
     >
-      {/* Header con Logo y Datos del Usuario */}
-      <Box
-        sx={{
-          p: isExpanded || isMobile ? 2 : 1.5,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 1.5,
-          borderBottom: `1px solid ${theme.palette.divider}`,
-        }}
-      >
-        {/* Logo */}
-        <ImageBox
-          src={logo}
-          alt="Logo"
-          delay={250}
-          sx={{
-            width: "auto",
-            height: isMobile || isExpanded ? "45px" : "35px",
-          }}
-        />
-
-        {/* Información del Usuario */}
-        {(isExpanded || isMobile) && user && (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 0.5,
-              textAlign: "center",
-            }}
-          >
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 600,
-                color: theme.palette.text.primary,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                maxWidth: "100%",
-              }}
-            >
-              {user.displayName || "Usuario"}
-            </Typography>
-            <Typography
-              variant="caption"
-              sx={{
-                color: theme.palette.text.secondary,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                maxWidth: "100%",
-              }}
-            >
-              {user.email}
-            </Typography>
-          </Box>
-        )}
-      </Box>
-
       {/* Menú de Navegación */}
       <List sx={{ flex: 1, px: isMobile ? 2 : isExpanded ? 1.5 : 1.5 }}>
         {menuItems.map((item) => (

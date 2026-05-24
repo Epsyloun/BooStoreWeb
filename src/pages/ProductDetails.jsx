@@ -81,7 +81,7 @@ export default function ProductDetails() {
   const doublePice = price?.toFixed(2);
   const doubleDiscountPrice = discountPrice?.toFixed(2);
 
-  const isInOffer = discountPrice === null ? false : true;
+  const isInOffer = !!discountPrice;
 
   return (
     <Container>

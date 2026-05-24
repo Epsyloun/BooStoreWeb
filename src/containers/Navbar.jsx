@@ -25,9 +25,9 @@ const logo =
   "https://firebasestorage.googleapis.com/v0/b/boo-store-cc6e5.firebasestorage.app/o/generic%2FLogoLetras.webp?alt=media&token=65fc8851-5aac-4fb1-8ab3-330fe85bdc02";
 const UrlLinks = [
   { name: "Productos", path: "/products" },
-  { name: "Envíos", path: "/delivery" },
-  { name: "Contacto", path: "/contact" },
-  { name: "Acerca de", path: "/about" },
+  // { name: "Envíos", path: "/delivery" },
+  // { name: "Contacto", path: "/contact" },
+  // { name: "Acerca de", path: "/about" },
 ];
 
 export default function Navbar() {
@@ -270,9 +270,9 @@ const MobileDrawer = ({ open, UrlLinks, navigate, setOpen }) => {
         </Box>
 
         {/* Search en drawer */}
-          <Box sx={{ pt: 2, px: 2 }}>
-            <MainSearchTextField />
-          </Box>
+        <Box sx={{ pt: 2, px: 2 }}>
+          <MainSearchTextField />
+        </Box>
 
         {/* Links */}
         <Box

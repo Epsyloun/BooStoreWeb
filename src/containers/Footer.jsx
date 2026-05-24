@@ -69,21 +69,21 @@ const menuLinks = [
       },
     ],
   },
-  {
-    title: "Envios",
-    url: "/delivery",
-    children: [],
-  },
-  {
-    title: "Contacto",
-    url: "/contact",
-    children: [],
-  },
-  {
-    title: "Acerca de",
-    url: "/about",
-    children: [],
-  },
+  // {
+  //   title: "Envios",
+  //   url: "/delivery",
+  //   children: [],
+  // },
+  // {
+  //   title: "Contacto",
+  //   url: "/contact",
+  //   children: [],
+  // },
+  // {
+  //   title: "Acerca de",
+  //   url: "/about",
+  //   children: [],
+  // },
 ];
 
 const styledLink = (theme) => ({
