@@ -46,11 +46,11 @@ export default function MainApp() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* RUTAS PÚBLICAS */}
-        <Route path="/*" element={<PublicRoutes />} />
-
         {/* RUTAS DE ADMIN */}
         <Route path="/admin/*" element={<AdminRoutes />} />
+
+        {/* RUTAS PÚBLICAS */}
+        <Route path="/*" element={<PublicRoutes />} />
       </Routes>
     </BrowserRouter>
   );

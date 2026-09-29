@@ -5,6 +5,17 @@
     <link rel="icon" type="image/svg+xml" href="/src/assets/images/logo.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Boo Store</title>
+    <script>
+      (function () {
+        const redirect = sessionStorage.redirect;
+
+        if (redirect) {
+          delete sessionStorage.redirect;
+
+          window.history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
