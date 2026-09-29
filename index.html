@@ -5,7 +5,18 @@
     <link rel="icon" type="image/svg+xml" href="/assets/logo-DhYmCIRL.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Boo Store</title>
-    <script type="module" crossorigin src="/assets/index-B7N_tYzb.js"></script>
+    <script>
+      (function () {
+        const redirect = sessionStorage.redirect;
+
+        if (redirect) {
+          delete sessionStorage.redirect;
+
+          window.history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-BhQ8z58u.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-piovwnLq.css">
   </head>
   <body>
