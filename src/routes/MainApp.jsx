@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 
 import { getProducts } from "../api";
 import { useBooContext } from "../context/useBooContext";
@@ -44,7 +44,7 @@ export default function MainApp() {
   }, []);
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
         {/* RUTAS PÚBLICAS */}
         <Route path="/*" element={<PublicRoutes />} />
@@ -52,6 +52,6 @@ export default function MainApp() {
         {/* RUTAS DE ADMIN */}
         <Route path="/admin/*" element={<AdminRoutes />} />
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
